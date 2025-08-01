@@ -1,0 +1,107 @@
+<view class="dice-container">
+  <!-- 头部信息 -->
+  <view class="header">
+    <view class="user-info">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <text class="nickname">{{userInfo.nickName}}</text>
+    </view>
+    <view class="location-info" wx:if="{{location}}">
+      <image class="location-icon" src="../../images/location.png"></image>
+      <text class="location-text">{{location.address || '定位中...'}}</text>
+    </view>
+  </view>
+
+  <!-- 摇骰子区域 -->
+  <view class="dice-area">
+    <view class="dice-title">
+      <text class="main-title">摇一摇，遇见缘分</text>
+      <text class="sub-title" wx:if="{{!isShaking && !result}}">摇动手机开始游戏</text>
+      <text class="sub-title" wx:if="{{isShaking}}">正在摇骰子...</text>
+      <text class="sub-title" wx:if="{{result}}">骰子点数：{{result}}</text>
+    </view>
+
+    <!-- 骰子动画 -->
+    <view class="dice-wrapper">
+      <view class="dice {{isShaking ? 'shaking' : ''}}" bindtap="onDiceClick">
+        <view class="dice-face dice-face-{{currentFace}}">
+          <view class="dot dot-{{i}}" wx:for="{{dots[currentFace]}}" wx:key="index"></view>
+        </view>
+      </view>
+      
+      <!-- 摇动提示 -->
+      <view class="shake-hint" wx:if="{{!isShaking && !result}}">
+        <image class="shake-icon" src="../../images/shake.png"></image>
+        <text>摇动手机或点击骰子</text>
+      </view>
+    </view>
+
+    <!-- 结果显示 -->
+    <view class="result-area" wx:if="{{result}}">
+      <view class="result-number">{{result}}</view>
+      <view class="result-actions">
+        <button class="action-btn primary" bindtap="findMatch" loading="{{isMatching}}">
+          {{isMatching ? '匹配中...' : '寻找缘分'}}
+        </button>
+        <button class="action-btn secondary" bindtap="resetDice">再摇一次</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 匹配结果 -->
+  <view class="match-result" wx:if="{{matchUser}}">
+    <view class="match-header">
+      <text class="match-title">找到了相同点数的TA</text>
+      <text class="match-subtitle">距离你 {{formatDistance(matchUser.distance)}}</text>
+    </view>
+    
+    <view class="match-user">
+      <image class="match-avatar" src="{{matchUser.avatarUrl}}" mode="aspectFill"></image>
+      <view class="match-info">
+        <text class="match-name">{{matchUser.nickName}}</text>
+        <text class="match-gender">{{matchUser.gender === 1 ? '♂' : '♀'}}</text>
+        <text class="match-age">{{matchUser.age}}岁</text>
+      </view>
+      <view class="match-dice">
+        <view class="small-dice">
+          <view class="small-dice-face small-dice-face-{{matchUser.diceResult}}">
+            <view class="small-dot small-dot-{{i}}" wx:for="{{dots[matchUser.diceResult]}}" wx:key="index"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="match-actions">
+      <button class="match-btn chat" bindtap="startChat">开始聊天</button>
+      <button class="match-btn pass" bindtap="passMatch">下一个</button>
+    </view>
+  </view>
+
+  <!-- 最近摇骰子记录 -->
+  <view class="recent-records" wx:if="{{recentRecords.length > 0}}">
+    <view class="records-header">
+      <text class="records-title">最近记录</text>
+    </view>
+    <scroll-view class="records-list" scroll-x="true">
+      <view class="record-item" wx:for="{{recentRecords}}" wx:key="id">
+        <view class="record-dice">
+          <view class="tiny-dice-face tiny-dice-face-{{item.result}}">
+            <view class="tiny-dot tiny-dot-{{i}}" wx:for="{{dots[item.result]}}" wx:key="index"></view>
+          </view>
+        </view>
+        <text class="record-time">{{item.time}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 加载遮罩 -->
+  <view class="loading-mask" wx:if="{{isMatching}}">
+    <view class="loading-content">
+      <view class="loading-dice">
+        <view class="loading-dice-face rotating">
+          <view class="loading-dot loading-dot-{{i}}" wx:for="{{6}}" wx:key="index"></view>
+        </view>
+      </view>
+      <text class="loading-text">正在为您匹配...</text>
+    </view>
+  </view>
+</view>

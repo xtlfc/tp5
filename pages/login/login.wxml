@@ -1,0 +1,50 @@
+<view class="login-container">
+  <view class="login-header">
+    <image class="logo" src="../../images/logo.png" mode="aspectFit"></image>
+    <text class="app-name">缘分骰子</text>
+    <text class="app-desc">摇一摇，遇见缘分</text>
+  </view>
+  
+  <view class="login-content">
+    <view class="feature-list">
+      <view class="feature-item">
+        <image class="feature-icon" src="../../images/dice-icon.png"></image>
+        <text class="feature-text">摇骰子交友</text>
+      </view>
+      <view class="feature-item">
+        <image class="feature-icon" src="../../images/location-icon.png"></image>
+        <text class="feature-text">附近用户</text>
+      </view>
+      <view class="feature-item">
+        <image class="feature-icon" src="../../images/chat-icon.png"></image>
+        <text class="feature-text">即时聊天</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="login-footer">
+    <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" wx:if="{{!hasUserInfo}}">
+      <image class="wechat-icon" src="../../images/wechat.png"></image>
+      微信快速登录
+    </button>
+    
+    <button class="login-btn" bindtap="onLogin" wx:else>
+      进入小程序
+    </button>
+    
+    <view class="privacy-notice">
+      <text>登录即表示同意</text>
+      <text class="privacy-link" bindtap="showPrivacy">《用户协议》</text>
+      <text>和</text>
+      <text class="privacy-link" bindtap="showPrivacy">《隐私政策》</text>
+    </view>
+  </view>
+  
+  <!-- 加载提示 -->
+  <view class="loading-mask" wx:if="{{isLoading}}">
+    <view class="loading-content">
+      <image class="loading-icon" src="../../images/loading.gif"></image>
+      <text class="loading-text">登录中...</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,119 @@
+<view class="chat-container">
+  <!-- 聊天头部 -->
+  <view class="chat-header" wx:if="{{chatUser}}">
+    <image class="header-avatar" src="{{chatUser.avatarUrl}}" mode="aspectFill"></image>
+    <view class="header-info">
+      <text class="header-name">{{chatUser.nickName}}</text>
+      <text class="header-status">{{isOnline ? '在线' : '离线'}}</text>
+    </view>
+    <view class="header-actions">
+      <image class="action-icon" src="../../images/video-call.png" bindtap="startVideoCall"></image>
+      <image class="action-icon" src="../../images/voice-call.png" bindtap="startVoiceCall"></image>
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <scroll-view class="message-list" scroll-y="true" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollIntoView}}">
+    <!-- 系统提示 -->
+    <view class="system-message">
+      <text class="system-text">消息将在阅读后自动销毁，请注意保护隐私</text>
+    </view>
+
+    <!-- 消息项 -->
+    <view class="message-item {{item.isMine ? 'mine' : 'other'}}" wx:for="{{messages}}" wx:key="id" id="msg{{item.id}}">
+      <!-- 时间戳 -->
+      <view class="message-time" wx:if="{{item.showTime}}">
+        <text class="time-text">{{item.timeStr}}</text>
+      </view>
+      
+      <!-- 消息内容 -->
+      <view class="message-content">
+        <!-- 对方头像 -->
+        <image class="message-avatar" src="{{item.isMine ? userInfo.avatarUrl : chatUser.avatarUrl}}" 
+               mode="aspectFill" wx:if="{{!item.isMine}}"></image>
+        
+        <!-- 消息气泡 -->
+        <view class="message-bubble {{item.type}}" bindtap="readMessage" data-id="{{item.id}}">
+          <!-- 文字消息 -->
+          <text class="message-text" wx:if="{{item.type === 'text'}}">{{item.content}}</text>
+          
+          <!-- 图片消息 -->
+          <image class="message-image" src="{{item.content}}" mode="aspectFill" 
+                 wx:if="{{item.type === 'image'}}" bindtap="previewImage" data-url="{{item.content}}"></image>
+          
+          <!-- 语音消息 -->
+          <view class="voice-message" wx:if="{{item.type === 'voice'}}" bindtap="playVoice" data-id="{{item.id}}">
+            <image class="voice-icon {{item.isPlaying ? 'playing' : ''}}" src="../../images/voice.png"></image>
+            <text class="voice-duration">{{item.duration}}''</text>
+          </view>
+          
+          <!-- 已读标识 -->
+          <view class="read-status" wx:if="{{item.isMine}}">
+            <text class="read-text" wx:if="{{item.status === 'read'}}">已读</text>
+            <text class="read-text" wx:if="{{item.status === 'destroyed'}}">已销毁</text>
+          </view>
+          
+          <!-- 销毁倒计时 -->
+          <view class="destroy-timer" wx:if="{{item.isRead && item.destroyTime > 0}}">
+            <text class="timer-text">{{item.destroyTime}}s后销毁</text>
+          </view>
+        </view>
+        
+        <!-- 我的头像 -->
+        <image class="message-avatar" src="{{userInfo.avatarUrl}}" 
+               mode="aspectFill" wx:if="{{item.isMine}}"></image>
+      </view>
+    </view>
+    
+    <!-- 正在输入提示 -->
+    <view class="typing-indicator" wx:if="{{isTyping}}">
+      <view class="typing-dots">
+        <view class="dot"></view>
+        <view class="dot"></view>
+        <view class="dot"></view>
+      </view>
+      <text class="typing-text">对方正在输入...</text>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <!-- 输入工具栏 -->
+    <view class="input-toolbar">
+      <image class="tool-icon" src="../../images/voice-input.png" bindtap="toggleVoiceInput"></image>
+      <image class="tool-icon" src="../../images/emoji.png" bindtap="toggleEmoji"></image>
+      <image class="tool-icon" src="../../images/image.png" bindtap="chooseImage"></image>
+      <image class="tool-icon" src="../../images/camera.png" bindtap="takePhoto"></image>
+    </view>
+    
+    <!-- 文字输入 -->
+    <view class="text-input-area" wx:if="{{inputMode === 'text'}}">
+      <input class="message-input" placeholder="输入消息..." value="{{inputText}}" 
+             bindinput="onInput" bindconfirm="sendMessage" adjust-position="true" />
+      <button class="send-btn {{inputText ? 'active' : ''}}" bindtap="sendMessage">发送</button>
+    </view>
+    
+    <!-- 语音输入 -->
+    <view class="voice-input-area" wx:if="{{inputMode === 'voice'}}">
+      <button class="voice-btn {{isRecording ? 'recording' : ''}}" 
+              bindtouchstart="startRecord" bindtouchend="stopRecord" bindtouchcancel="cancelRecord">
+        <text wx:if="{{!isRecording}}">按住 说话</text>
+        <text wx:if="{{isRecording}}">松开 结束</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 表情面板 -->
+  <view class="emoji-panel" wx:if="{{showEmojiPanel}}">
+    <scroll-view class="emoji-list" scroll-x="true">
+      <view class="emoji-item" wx:for="{{emojiList}}" wx:key="index" bindtap="sendEmoji" data-emoji="{{item}}">
+        <text class="emoji-text">{{item}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 连接状态提示 -->
+  <view class="connection-status" wx:if="{{!isConnected}}">
+    <text class="status-text">连接已断开，正在重连...</text>
+  </view>
+</view>

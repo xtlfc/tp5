@@ -1,0 +1,164 @@
+.profile-container {
+  min-height: 100vh;
+  background: #F5F5F5;
+  padding: 40rpx 30rpx;
+}
+
+/* 用户信息卡片 */
+.user-card {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  margin-right: 30rpx;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+
+.user-id {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.edit-icon {
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.6;
+}
+
+.edit-icon:active {
+  opacity: 1;
+}
+
+/* 用户统计 */
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FF6B9D;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666666;
+}
+
+/* 菜单区域 */
+.menu-section {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  margin-bottom: 40rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 40rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+  transition: background-color 0.2s;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:active {
+  background-color: #F8F8F8;
+}
+
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 30rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.arrow-icon {
+  width: 24rpx;
+  height: 24rpx;
+  opacity: 0.3;
+}
+
+/* 退出登录 */
+.logout-section {
+  margin-top: 60rpx;
+}
+
+.logout-btn {
+  width: 100%;
+  height: 88rpx;
+  background: transparent;
+  border: 2rpx solid #FF6B9D;
+  border-radius: 44rpx;
+  color: #FF6B9D;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 84rpx;
+  text-align: center;
+}
+
+.logout-btn:active {
+  background: #FF6B9D;
+  color: #FFFFFF;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 375px) {
+  .profile-container {
+    padding: 30rpx 20rpx;
+  }
+  
+  .user-card {
+    padding: 30rpx;
+  }
+  
+  .user-avatar {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+  }
+  
+  .stat-number {
+    font-size: 40rpx;
+  }
+}

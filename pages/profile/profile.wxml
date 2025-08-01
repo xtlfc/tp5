@@ -1,0 +1,74 @@
+<view class="profile-container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-header">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="user-name">{{userInfo.nickName}}</text>
+        <text class="user-id">ID: {{userInfo.openid.slice(-8)}}</text>
+      </view>
+      <image class="edit-icon" src="../../images/edit.png" bindtap="editProfile"></image>
+    </view>
+    
+    <view class="user-stats">
+      <view class="stat-item">
+        <text class="stat-number">{{totalDiceCount}}</text>
+        <text class="stat-label">摇骰子次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{matchCount}}</text>
+        <text class="stat-label">匹配次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{chatCount}}</text>
+        <text class="stat-label">聊天人数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="viewHistory">
+      <image class="menu-icon" src="../../images/history.png"></image>
+      <text class="menu-text">摇骰记录</text>
+      <image class="arrow-icon" src="../../images/arrow-right.png"></image>
+    </view>
+    
+    <view class="menu-item" bindtap="viewMatches">
+      <image class="menu-icon" src="../../images/match.png"></image>
+      <text class="menu-text">匹配记录</text>
+      <image class="arrow-icon" src="../../images/arrow-right.png"></image>
+    </view>
+    
+    <view class="menu-item" bindtap="viewChats">
+      <image class="menu-icon" src="../../images/chat-list.png"></image>
+      <text class="menu-text">聊天记录</text>
+      <image class="arrow-icon" src="../../images/arrow-right.png"></image>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-item" bindtap="viewSettings">
+      <image class="menu-icon" src="../../images/settings.png"></image>
+      <text class="menu-text">设置</text>
+      <image class="arrow-icon" src="../../images/arrow-right.png"></image>
+    </view>
+    
+    <view class="menu-item" bindtap="viewHelp">
+      <image class="menu-icon" src="../../images/help.png"></image>
+      <text class="menu-text">帮助与反馈</text>
+      <image class="arrow-icon" src="../../images/arrow-right.png"></image>
+    </view>
+    
+    <view class="menu-item" bindtap="viewAbout">
+      <image class="menu-icon" src="../../images/about.png"></image>
+      <text class="menu-text">关于我们</text>
+      <image class="arrow-icon" src="../../images/arrow-right.png"></image>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="logout">退出登录</button>
+  </view>
+</view>
