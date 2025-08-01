@@ -1,0 +1,526 @@
+.dice-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FF6B9D 0%, #F8F8F8 50%);
+  padding: 40rpx 30rpx;
+  box-sizing: border-box;
+}
+
+/* 头部信息 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+  margin-right: 20rpx;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.nickname {
+  font-size: 32rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+}
+
+.location-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+
+.location-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 摇骰子区域 */
+.dice-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 80rpx;
+}
+
+.dice-title {
+  text-align: center;
+  margin-bottom: 80rpx;
+}
+
+.main-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-bottom: 20rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.sub-title {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 骰子样式 */
+.dice-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dice {
+  width: 200rpx;
+  height: 200rpx;
+  position: relative;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.dice:active {
+  transform: scale(0.95);
+}
+
+.dice-face {
+  position: absolute;
+  width: 200rpx;
+  height: 200rpx;
+  background: #FFFFFF;
+  border: 4rpx solid #E0E0E0;
+  border-radius: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+/* 骰子点数样式 */
+.dot {
+  width: 24rpx;
+  height: 24rpx;
+  background: #333333;
+  border-radius: 50%;
+  margin: 8rpx;
+}
+
+/* 1点 */
+.dice-face-1 {
+  justify-content: center;
+  align-items: center;
+}
+
+.dice-face-1 .dot {
+  margin: 0;
+}
+
+/* 2点 */
+.dice-face-2 {
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 30rpx;
+  flex-direction: column;
+}
+
+.dice-face-2 .dot:first-child {
+  align-self: flex-start;
+}
+
+.dice-face-2 .dot:last-child {
+  align-self: flex-end;
+}
+
+/* 3点 */
+.dice-face-3 {
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 30rpx;
+  flex-direction: column;
+}
+
+.dice-face-3 .dot:first-child {
+  align-self: flex-start;
+}
+
+.dice-face-3 .dot:nth-child(2) {
+  align-self: center;
+}
+
+.dice-face-3 .dot:last-child {
+  align-self: flex-end;
+}
+
+/* 4点 */
+.dice-face-4 {
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 30rpx;
+  flex-direction: column;
+}
+
+.dice-face-4 .dot {
+  width: 24rpx;
+  height: 24rpx;
+  margin: 4rpx;
+}
+
+/* 5点 */
+.dice-face-5 {
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 30rpx;
+  flex-direction: column;
+}
+
+.dice-face-5 .dot {
+  width: 20rpx;
+  height: 20rpx;
+  margin: 4rpx;
+}
+
+/* 6点 */
+.dice-face-6 {
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 30rpx;
+  flex-direction: column;
+}
+
+.dice-face-6 .dot {
+  width: 18rpx;
+  height: 18rpx;
+  margin: 3rpx;
+}
+
+/* 摇动动画 */
+.shaking {
+  animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-10rpx) rotate(-5deg); }
+  50% { transform: translateX(10rpx) rotate(5deg); }
+  75% { transform: translateX(-10rpx) rotate(-5deg); }
+}
+
+/* 摇动提示 */
+.shake-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40rpx;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 24rpx;
+}
+
+.shake-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-bottom: 16rpx;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10rpx); }
+  60% { transform: translateY(-5rpx); }
+}
+
+/* 结果区域 */
+.result-area {
+  text-align: center;
+  margin-top: 60rpx;
+}
+
+.result-number {
+  font-size: 120rpx;
+  font-weight: bold;
+  color: #FF6B9D;
+  margin-bottom: 40rpx;
+  text-shadow: 0 4rpx 12rpx rgba(255, 107, 157, 0.3);
+}
+
+.result-actions {
+  display: flex;
+  gap: 30rpx;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 24rpx 48rpx;
+  border-radius: 48rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.action-btn.primary {
+  background: #FF6B9D;
+  color: #FFFFFF;
+  box-shadow: 0 6rpx 20rpx rgba(255, 107, 157, 0.3);
+}
+
+.action-btn.primary:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 157, 0.3);
+}
+
+.action-btn.secondary {
+  background: #FFFFFF;
+  color: #FF6B9D;
+  border: 2rpx solid #FF6B9D;
+}
+
+.action-btn.secondary:active {
+  background: #FF6B9D;
+  color: #FFFFFF;
+}
+
+/* 匹配结果 */
+.match-result {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+}
+
+.match-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.match-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+
+.match-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.match-user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.match-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50rpx;
+  margin-right: 30rpx;
+}
+
+.match-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.match-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.match-gender, .match-age {
+  font-size: 24rpx;
+  color: #666666;
+  margin-right: 16rpx;
+}
+
+.match-dice {
+  margin-left: 20rpx;
+}
+
+.small-dice {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.small-dice-face {
+  width: 60rpx;
+  height: 60rpx;
+  background: #F0F0F0;
+  border: 2rpx solid #E0E0E0;
+  border-radius: 8rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.small-dot {
+  width: 8rpx;
+  height: 8rpx;
+  background: #333333;
+  border-radius: 50%;
+  margin: 2rpx;
+}
+
+.match-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.match-btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.match-btn.chat {
+  background: #FF6B9D;
+  color: #FFFFFF;
+}
+
+.match-btn.pass {
+  background: #F5F5F5;
+  color: #666666;
+}
+
+/* 最近记录 */
+.recent-records {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.records-header {
+  margin-bottom: 20rpx;
+}
+
+.records-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.records-list {
+  white-space: nowrap;
+}
+
+.record-item {
+  display: inline-block;
+  text-align: center;
+  margin-right: 20rpx;
+  vertical-align: top;
+}
+
+.record-dice {
+  margin-bottom: 8rpx;
+}
+
+.tiny-dice-face {
+  width: 40rpx;
+  height: 40rpx;
+  background: #F8F8F8;
+  border: 1rpx solid #E0E0E0;
+  border-radius: 6rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tiny-dot {
+  width: 4rpx;
+  height: 4rpx;
+  background: #666666;
+  border-radius: 50%;
+  margin: 1rpx;
+}
+
+.record-time {
+  font-size: 20rpx;
+  color: #999999;
+}
+
+/* 加载遮罩 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.loading-dice {
+  margin-bottom: 30rpx;
+}
+
+.loading-dice-face {
+  width: 80rpx;
+  height: 80rpx;
+  background: #FF6B9D;
+  border-radius: 12rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.loading-dot {
+  width: 8rpx;
+  height: 8rpx;
+  background: #FFFFFF;
+  border-radius: 50%;
+  margin: 2rpx;
+}
+
+.rotating {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #666666;
+}
