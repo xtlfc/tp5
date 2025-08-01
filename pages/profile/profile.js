@@ -53,11 +53,8 @@ Page({
 
   // 编辑资料
   editProfile: function() {
-    wx.showModal({
-      title: '编辑资料',
-      content: '此功能正在开发中，敬请期待！',
-      showCancel: false,
-      confirmText: '我知道了'
+    wx.navigateTo({
+      url: '/pages/edit-profile/edit-profile'
     })
   },
 

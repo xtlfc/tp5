@@ -1,0 +1,37 @@
+<view class="lazy-image-container" style="width: {{width}}; height: {{height}};">
+  <!-- 占位图 -->
+  <view class="placeholder" wx:if="{{!imageLoaded && !imageError}}" style="width: {{width}}; height: {{height}};">
+    <view class="placeholder-content">
+      <image class="placeholder-icon" src="../../images/image-placeholder.png" wx:if="{{showPlaceholder}}"></image>
+      <view class="loading-animation" wx:if="{{isLoading}}">
+        <view class="loading-dot dot1"></view>
+        <view class="loading-dot dot2"></view>
+        <view class="loading-dot dot3"></view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 实际图片 -->
+  <image 
+    class="lazy-image {{imageLoaded ? 'loaded' : ''}}"
+    src="{{shouldLoad ? src : ''}}"
+    mode="{{mode}}"
+    style="width: {{width}}; height: {{height}};"
+    bindload="onImageLoad"
+    binderror="onImageError"
+    lazy-load="{{lazyLoad}}"
+    show-menu-by-longpress="{{showMenuByLongpress}}"
+    bindtap="onImageTap"
+  />
+  
+  <!-- 错误状态 -->
+  <view class="error-placeholder" wx:if="{{imageError}}" style="width: {{width}}; height: {{height}};" bindtap="retryLoad">
+    <image class="error-icon" src="../../images/image-error.png"></image>
+    <text class="error-text">加载失败，点击重试</text>
+  </view>
+  
+  <!-- 进度条 -->
+  <view class="progress-bar" wx:if="{{showProgress && isLoading}}">
+    <view class="progress-fill" style="width: {{progress}}%;"></view>
+  </view>
+</view>

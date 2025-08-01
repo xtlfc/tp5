@@ -5,7 +5,8 @@
     "pages/dice/dice", 
     "pages/match/match",
     "pages/chat/chat",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/edit-profile/edit-profile"
   ],
   "window": {
     "backgroundTextStyle": "light",

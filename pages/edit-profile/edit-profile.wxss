@@ -1,0 +1,298 @@
+.edit-profile-container {
+  min-height: 100vh;
+  background: #F5F5F5;
+  padding: 0 30rpx 120rpx;
+}
+
+/* 头像编辑区域 */
+.avatar-section {
+  display: flex;
+  justify-content: center;
+  padding: 60rpx 0;
+  background: #FFFFFF;
+  margin-bottom: 20rpx;
+}
+
+.avatar-container {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100rpx;
+  overflow: hidden;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-container:active .avatar-overlay {
+  opacity: 1;
+}
+
+.camera-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.change-text {
+  font-size: 24rpx;
+  color: #FFFFFF;
+}
+
+/* 表单区域 */
+.form-section {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+  padding: 40rpx 30rpx 20rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+  min-height: 80rpx;
+  box-sizing: border-box;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #333333;
+  width: 160rpx;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333333;
+  text-align: right;
+}
+
+.picker-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333333;
+  text-align: right;
+}
+
+/* 性别选择器 */
+.gender-selector {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 30rpx;
+}
+
+.gender-option {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  border: 2rpx solid #E0E0E0;
+  border-radius: 40rpx;
+  transition: all 0.3s ease;
+}
+
+.gender-option.active {
+  border-color: #FF6B9D;
+  background: rgba(255, 107, 157, 0.1);
+  color: #FF6B9D;
+}
+
+.gender-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+
+/* 个人简介 */
+.bio-item {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 30rpx;
+}
+
+.bio-textarea {
+  width: 100%;
+  min-height: 200rpx;
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 24rpx;
+  color: #999999;
+  margin-top: 16rpx;
+}
+
+/* 兴趣爱好 */
+.interests-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  padding: 30rpx;
+}
+
+.interest-tag {
+  padding: 16rpx 32rpx;
+  background: #F8F8F8;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+  color: #666666;
+  transition: all 0.3s ease;
+  border: 2rpx solid transparent;
+}
+
+.interest-tag.selected {
+  background: rgba(255, 107, 157, 0.1);
+  color: #FF6B9D;
+  border-color: #FF6B9D;
+}
+
+.custom-interest {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 0 30rpx 30rpx;
+}
+
+.custom-input {
+  flex: 1;
+  height: 80rpx;
+  background: #F8F8F8;
+  border-radius: 40rpx;
+  padding: 0 30rpx;
+  font-size: 26rpx;
+  color: #333333;
+}
+
+.add-btn {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 40rpx;
+  background: #FF6B9D;
+  color: #FFFFFF;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+  border: none;
+}
+
+.add-btn[disabled] {
+  background: #E0E0E0;
+  color: #999999;
+}
+
+/* 开关项 */
+.switch-item {
+  justify-content: space-between;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #FFFFFF;
+  padding: 30rpx;
+  box-sizing: border-box;
+  display: flex;
+  gap: 20rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.save-btn {
+  flex: 2;
+  height: 88rpx;
+  background: #FF6B9D;
+  color: #FFFFFF;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  border: none;
+  line-height: 88rpx;
+}
+
+.save-btn[loading] {
+  background: #E0E0E0;
+  color: #999999;
+}
+
+.cancel-btn {
+  flex: 1;
+  height: 88rpx;
+  background: transparent;
+  color: #666666;
+  border: 2rpx solid #E0E0E0;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  line-height: 84rpx;
+}
+
+.cancel-btn:active {
+  background: #F5F5F5;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 375px) {
+  .edit-profile-container {
+    padding: 0 20rpx 120rpx;
+  }
+  
+  .avatar-container {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 80rpx;
+  }
+  
+  .section-title {
+    font-size: 28rpx;
+    padding: 30rpx 20rpx 15rpx;
+  }
+  
+  .form-item {
+    padding: 24rpx 20rpx;
+  }
+  
+  .label {
+    width: 120rpx;
+    font-size: 26rpx;
+  }
+  
+  .input, .picker-value {
+    font-size: 26rpx;
+  }
+}

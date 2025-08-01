@@ -1,4 +1,6 @@
 const app = getApp()
+const blacklistManager = require('../../utils/blacklist.js')
+const reportManager = require('../../utils/report.js')
 
 Page({
   data: {
@@ -567,9 +569,140 @@ Page({
 
   // 开始语音通话
   startVoiceCall: function() {
-    wx.showToast({
-      title: '语音通话功能开发中',
-      icon: 'none'
+    // 检查是否被拉黑
+    if (blacklistManager.isBlocked(this.data.chatUser.id)) {
+      wx.showToast({
+        title: '无法呼叫该用户',
+        icon: 'none'
+      })
+      return
+    }
+
+    // 显示语音通话界面
+    this.setData({
+      showVoiceCall: true,
+      voiceCallType: 'outgoing',
+      voiceCallUser: this.data.chatUser
+    })
+  },
+
+  // 显示更多操作
+  showMoreActions: function() {
+    const that = this
+    
+    wx.showActionSheet({
+      itemList: ['举报用户', '加入黑名单', '清空聊天记录'],
+      success: function(res) {
+        switch(res.tapIndex) {
+          case 0:
+            that.reportUser()
+            break
+          case 1:
+            that.addToBlacklist()
+            break
+          case 2:
+            that.clearChatHistory()
+            break
+        }
+      }
+    })
+  },
+
+  // 举报用户
+  reportUser: function() {
+    const that = this
+    
+    wx.showActionSheet({
+      itemList: ['发送不当内容', '骚扰他人', '虚假信息', '诈骗行为', '其他违规'],
+      success: function(res) {
+        const reportTypes = [1, 2, 3, 4, 8] // 对应举报类型ID
+        const typeId = reportTypes[res.tapIndex]
+        
+        const reportData = {
+          targetUserId: that.data.chatUser.id,
+          targetUserName: that.data.chatUser.nickName,
+          targetUserAvatar: that.data.chatUser.avatarUrl,
+          typeId: typeId
+        }
+        
+        reportManager.submitReport(reportData)
+          .then(result => {
+            wx.showToast({
+              title: result.message,
+              icon: 'success'
+            })
+          })
+          .catch(error => {
+            wx.showToast({
+              title: error.message,
+              icon: 'none'
+            })
+          })
+      }
+    })
+  },
+
+  // 加入黑名单
+  addToBlacklist: function() {
+    const that = this
+    
+    wx.showModal({
+      title: '加入黑名单',
+      content: '确定要将该用户加入黑名单吗？加入后将无法收到对方消息。',
+      success: function(res) {
+        if (res.confirm) {
+          const result = blacklistManager.addToBlacklist({
+            id: that.data.chatUser.id,
+            nickName: that.data.chatUser.nickName,
+            avatarUrl: that.data.chatUser.avatarUrl,
+            gender: that.data.chatUser.gender,
+            reason: '聊天中拉黑'
+          })
+          
+          if (result.success) {
+            wx.showToast({
+              title: result.message,
+              icon: 'success'
+            })
+            
+            // 返回上一页
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1500)
+          } else {
+            wx.showToast({
+              title: result.message,
+              icon: 'none'
+            })
+          }
+        }
+      }
+    })
+  },
+
+  // 清空聊天记录
+  clearChatHistory: function() {
+    const that = this
+    
+    wx.showModal({
+      title: '清空聊天记录',
+      content: '确定要清空与该用户的所有聊天记录吗？此操作不可恢复。',
+      success: function(res) {
+        if (res.confirm) {
+          that.setData({
+            messages: []
+          })
+          
+          // 清空本地存储
+          const chatId = that.generateChatId()
+          wx.removeStorageSync(`chat_${chatId}`)
+          
+          wx.showToast({
+            title: '聊天记录已清空',
+            icon: 'success'
+          })
+        }
+      }
     })
   }
 })

@@ -1,0 +1,126 @@
+<view class="edit-profile-container">
+  <!-- 头像编辑 -->
+  <view class="avatar-section">
+    <view class="avatar-container" bindtap="changeAvatar">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="avatar-overlay">
+        <image class="camera-icon" src="../../images/camera-white.png"></image>
+        <text class="change-text">更换头像</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <view class="section-title">基本信息</view>
+    
+    <view class="form-item">
+      <text class="label">昵称</text>
+      <input class="input" value="{{userInfo.nickName}}" bindinput="onNickNameInput" maxlength="20" placeholder="请输入昵称"/>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">性别</text>
+      <view class="gender-selector">
+        <view class="gender-option {{userInfo.gender === 1 ? 'active' : ''}}" bindtap="selectGender" data-gender="1">
+          <image class="gender-icon" src="../../images/male.png"></image>
+          <text>男</text>
+        </view>
+        <view class="gender-option {{userInfo.gender === 2 ? 'active' : ''}}" bindtap="selectGender" data-gender="2">
+          <image class="gender-icon" src="../../images/female.png"></image>
+          <text>女</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">年龄</text>
+      <picker mode="selector" range="{{ageRange}}" value="{{ageIndex}}" bindchange="onAgeChange">
+        <view class="picker-value">
+          {{userInfo.age || '请选择年龄'}}岁
+        </view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">所在城市</text>
+      <picker mode="region" value="{{regionValue}}" bindchange="onRegionChange">
+        <view class="picker-value">
+          {{userInfo.city || '请选择城市'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 个人简介 -->
+  <view class="form-section">
+    <view class="section-title">个人简介</view>
+    
+    <view class="form-item bio-item">
+      <textarea 
+        class="bio-textarea" 
+        value="{{userInfo.bio}}" 
+        bindinput="onBioInput"
+        maxlength="200" 
+        placeholder="介绍一下自己吧，让大家更了解你..."
+        auto-height="true"
+        show-confirm-bar="false">
+      </textarea>
+      <view class="char-count">{{bioLength}}/200</view>
+    </view>
+  </view>
+
+  <!-- 兴趣爱好 -->
+  <view class="form-section">
+    <view class="section-title">兴趣爱好</view>
+    
+    <view class="interests-container">
+      <view 
+        class="interest-tag {{item.selected ? 'selected' : ''}}"
+        wx:for="{{interestsList}}" 
+        wx:key="id"
+        bindtap="toggleInterest"
+        data-id="{{item.id}}">
+        {{item.name}}
+      </view>
+    </view>
+    
+    <view class="custom-interest">
+      <input 
+        class="custom-input" 
+        value="{{customInterest}}" 
+        bindinput="onCustomInterestInput"
+        placeholder="添加自定义兴趣"
+        maxlength="10"/>
+      <button class="add-btn" bindtap="addCustomInterest" disabled="{{!customInterest}}">添加</button>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="form-section">
+    <view class="section-title">隐私设置</view>
+    
+    <view class="form-item switch-item">
+      <text class="label">显示在线状态</text>
+      <switch checked="{{privacySettings.showOnlineStatus}}" bindchange="onShowOnlineChange"/>
+    </view>
+    
+    <view class="form-item switch-item">
+      <text class="label">允许陌生人发起聊天</text>
+      <switch checked="{{privacySettings.allowStrangerChat}}" bindchange="onAllowStrangerChange"/>
+    </view>
+    
+    <view class="form-item switch-item">
+      <text class="label">显示距离信息</text>
+      <switch checked="{{privacySettings.showDistance}}" bindchange="onShowDistanceChange"/>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="save-btn" bindtap="saveProfile" loading="{{isSaving}}">
+      {{isSaving ? '保存中...' : '保存修改'}}
+    </button>
+    <button class="cancel-btn" bindtap="cancelEdit">取消</button>
+  </view>
+</view>

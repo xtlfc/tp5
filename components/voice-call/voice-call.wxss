@@ -1,0 +1,242 @@
+.voice-call-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+.call-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.call-interface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 100rpx 60rpx 120rpx;
+  box-sizing: border-box;
+}
+
+/* 头部信息 */
+.call-header {
+  text-align: center;
+  color: #ffffff;
+}
+
+.call-status {
+  display: block;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 16rpx;
+}
+
+.call-duration {
+  display: block;
+  font-size: 28rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* 用户头像区域 */
+.user-avatar-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.user-avatar {
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 150rpx;
+  border: 6rpx solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 40rpx;
+}
+
+.user-name {
+  font-size: 48rpx;
+  color: #ffffff;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+/* 音波动画 */
+.voice-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  position: absolute;
+  bottom: -40rpx;
+}
+
+.wave-bar {
+  width: 6rpx;
+  background: #00ff88;
+  border-radius: 3rpx;
+  animation: waveAnimation 1.2s ease-in-out infinite;
+}
+
+.wave-1 { height: 20rpx; animation-delay: 0s; }
+.wave-2 { height: 40rpx; animation-delay: 0.1s; }
+.wave-3 { height: 60rpx; animation-delay: 0.2s; }
+.wave-4 { height: 40rpx; animation-delay: 0.3s; }
+.wave-5 { height: 20rpx; animation-delay: 0.4s; }
+
+@keyframes waveAnimation {
+  0%, 40%, 100% { transform: scaleY(0.4); }
+  20% { transform: scaleY(1); }
+}
+
+/* 控制按钮 */
+.call-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60rpx;
+}
+
+.control-btn {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.control-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.control-btn.hangup {
+  background: #ff3b30;
+  border-color: #ff3b30;
+}
+
+.control-btn.answer {
+  background: #00ff88;
+  border-color: #00ff88;
+}
+
+.control-icon {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+/* 网络状态 */
+.network-status {
+  position: absolute;
+  top: 80rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 69, 58, 0.9);
+  padding: 12rpx 24rpx;
+  border-radius: 20rpx;
+  backdrop-filter: blur(10rpx);
+}
+
+.status-text {
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+/* 来电动画 */
+.incoming-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400rpx;
+  height: 400rpx;
+  pointer-events: none;
+}
+
+.ring-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: ringExpand 2s linear infinite;
+}
+
+.ring-1 {
+  width: 300rpx;
+  height: 300rpx;
+  animation-delay: 0s;
+}
+
+.ring-2 {
+  width: 350rpx;
+  height: 350rpx;
+  animation-delay: 0.5s;
+}
+
+.ring-3 {
+  width: 400rpx;
+  height: 400rpx;
+  animation-delay: 1s;
+}
+
+@keyframes ringExpand {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 375px) {
+  .call-interface {
+    padding: 80rpx 40rpx 100rpx;
+  }
+  
+  .user-avatar {
+    width: 250rpx;
+    height: 250rpx;
+    border-radius: 125rpx;
+  }
+  
+  .user-name {
+    font-size: 40rpx;
+  }
+  
+  .control-btn {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+  }
+  
+  .control-icon {
+    width: 50rpx;
+    height: 50rpx;
+  }
+}

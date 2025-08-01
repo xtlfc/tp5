@@ -1,0 +1,136 @@
+.lazy-image-container {
+  position: relative;
+  overflow: hidden;
+  background: #F5F5F5;
+  border-radius: inherit;
+}
+
+/* 占位图 */
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F5F5F5;
+  z-index: 1;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-icon {
+  width: 60rpx;
+  height: 60rpx;
+  opacity: 0.3;
+  margin-bottom: 16rpx;
+}
+
+/* 加载动画 */
+.loading-animation {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.loading-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: #999999;
+  animation: loadingPulse 1.4s ease-in-out infinite both;
+}
+
+.dot1 { animation-delay: -0.32s; }
+.dot2 { animation-delay: -0.16s; }
+.dot3 { animation-delay: 0s; }
+
+@keyframes loadingPulse {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 实际图片 */
+.lazy-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+/* 错误状态 */
+.error-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F5F5F5;
+  z-index: 3;
+}
+
+.error-icon {
+  width: 48rpx;
+  height: 48rpx;
+  opacity: 0.5;
+  margin-bottom: 12rpx;
+}
+
+.error-text {
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+}
+
+/* 进度条 */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4rpx;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 4;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #FF6B9D;
+  transition: width 0.3s ease;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 375px) {
+  .placeholder-icon {
+    width: 48rpx;
+    height: 48rpx;
+  }
+  
+  .error-icon {
+    width: 40rpx;
+    height: 40rpx;
+  }
+  
+  .error-text {
+    font-size: 22rpx;
+  }
+}

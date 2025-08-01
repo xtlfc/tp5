@@ -1,0 +1,65 @@
+<view class="voice-call-container" wx:if="{{isVisible}}">
+  <!-- 背景遮罩 -->
+  <view class="call-overlay"></view>
+  
+  <!-- 通话界面 -->
+  <view class="call-interface">
+    <!-- 头部信息 -->
+    <view class="call-header">
+      <text class="call-status">{{callStatusText}}</text>
+      <text class="call-duration" wx:if="{{callDuration > 0}}">{{formatDuration(callDuration)}}</text>
+    </view>
+    
+    <!-- 用户头像 -->
+    <view class="user-avatar-section">
+      <image class="user-avatar" src="{{remoteUser.avatarUrl}}" mode="aspectFill"></image>
+      <text class="user-name">{{remoteUser.nickName}}</text>
+      
+      <!-- 音波动画 -->
+      <view class="voice-wave" wx:if="{{isConnected && !isMuted}}">
+        <view class="wave-bar wave-1"></view>
+        <view class="wave-bar wave-2"></view>
+        <view class="wave-bar wave-3"></view>
+        <view class="wave-bar wave-4"></view>
+        <view class="wave-bar wave-5"></view>
+      </view>
+    </view>
+    
+    <!-- 控制按钮 -->
+    <view class="call-controls">
+      <!-- 静音按钮 -->
+      <view class="control-btn {{isMuted ? 'active' : ''}}" bindtap="toggleMute">
+        <image class="control-icon" src="../../images/{{isMuted ? 'mic-off' : 'mic-on'}}.png"></image>
+      </view>
+      
+      <!-- 免提按钮 -->
+      <view class="control-btn {{isSpeaker ? 'active' : ''}}" bindtap="toggleSpeaker">
+        <image class="control-icon" src="../../images/{{isSpeaker ? 'speaker-on' : 'speaker-off'}}.png"></image>
+      </view>
+      
+      <!-- 挂断按钮 -->
+      <view class="control-btn hangup" bindtap="hangupCall">
+        <image class="control-icon" src="../../images/hangup.png"></image>
+      </view>
+      
+      <!-- 接听按钮 (来电时显示) -->
+      <view class="control-btn answer" wx:if="{{callType === 'incoming' && !isConnected}}" bindtap="answerCall">
+        <image class="control-icon" src="../../images/answer.png"></image>
+      </view>
+    </view>
+    
+    <!-- 网络状态 -->
+    <view class="network-status" wx:if="{{networkStatus !== 'good'}}">
+      <text class="status-text">
+        {{networkStatus === 'poor' ? '网络不佳' : networkStatus === 'disconnected' ? '网络已断开' : ''}}
+      </text>
+    </view>
+  </view>
+  
+  <!-- 来电铃声动画 -->
+  <view class="incoming-animation" wx:if="{{callType === 'incoming' && !isConnected}}">
+    <view class="ring-circle ring-1"></view>
+    <view class="ring-circle ring-2"></view>
+    <view class="ring-circle ring-3"></view>
+  </view>
+</view>

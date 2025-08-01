@@ -9,6 +9,7 @@
     <view class="header-actions">
       <image class="action-icon" src="../../images/video-call.png" bindtap="startVideoCall"></image>
       <image class="action-icon" src="../../images/voice-call.png" bindtap="startVoiceCall"></image>
+      <image class="action-icon" src="../../images/more.png" bindtap="showMoreActions"></image>
     </view>
   </view>
 
