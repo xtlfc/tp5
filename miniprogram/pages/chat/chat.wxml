@@ -1,0 +1,119 @@
+<!--pages/chat/chat.wxml-->
+<view class="container">
+  <!-- 聊天头部 -->
+  <view class="chat-header">
+    <view class="user-info">
+      <image class="user-avatar" src="{{matchedUser.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="user-name">{{matchedUser.nickName}}</text>
+        <text class="user-status">{{userStatus}}</text>
+      </view>
+    </view>
+    <view class="header-actions">
+      <button class="action-btn" bindtap="showUserProfile">
+        <text class="action-icon">👤</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 聊天消息列表 -->
+  <scroll-view 
+    class="chat-messages" 
+    scroll-y="true" 
+    scroll-into-view="{{scrollToMessage}}"
+    bindscrolltoupper="loadMoreMessages"
+    upper-threshold="50"
+  >
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{isLoadingMore}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- 消息列表 -->
+    <view class="message-list">
+      <view 
+        class="message-item {{item.isSelf ? 'self' : 'other'}}" 
+        wx:for="{{messages}}" 
+        wx:key="id"
+        id="msg-{{item.id}}"
+      >
+        <!-- 时间分割线 -->
+        <view class="time-divider" wx:if="{{item.showTime}}">
+          <text class="time-text">{{item.timeText}}</text>
+        </view>
+
+        <!-- 消息内容 -->
+        <view class="message-content">
+          <!-- 头像 -->
+          <image 
+            class="message-avatar" 
+            src="{{item.isSelf ? userInfo.avatarUrl : matchedUser.avatarUrl}}" 
+            mode="aspectFill"
+          ></image>
+
+          <!-- 消息气泡 -->
+          <view class="message-bubble">
+            <!-- 文本消息 -->
+            <text class="message-text" wx:if="{{item.type === 'text'}}">{{item.content}}</text>
+            
+            <!-- 图片消息 -->
+            <image 
+              class="message-image" 
+              wx:if="{{item.type === 'image'}}" 
+              src="{{item.content}}" 
+              mode="widthFix"
+              bindtap="previewImage"
+              data-url="{{item.content}}"
+            ></image>
+
+            <!-- 消息状态 -->
+            <view class="message-status">
+              <text class="status-text {{item.status}}">
+                {{item.status === 'sending' ? '发送中' : 
+                  item.status === 'sent' ? '已发送' : 
+                  item.status === 'read' ? '已读' : '发送失败'}}
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{messages.length === 0}}">
+      <image class="empty-icon" src="/images/empty-chat.png" mode="aspectFit"></image>
+      <text class="empty-text">开始聊天吧！消息看完即销毁哦～</text>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="chat-input">
+    <view class="input-container">
+      <!-- 输入框 -->
+      <input 
+        class="message-input" 
+        placeholder="输入消息..." 
+        value="{{inputMessage}}"
+        bindinput="onInputChange"
+        bindconfirm="sendMessage"
+        confirm-type="send"
+        disabled="{{isSending}}"
+      />
+      
+      <!-- 功能按钮 -->
+      <view class="input-actions">
+        <button class="action-btn" bindtap="chooseImage" disabled="{{isSending}}">
+          <text class="action-icon">📷</text>
+        </button>
+        <button class="send-btn btn-primary" bindtap="sendMessage" disabled="{{!inputMessage.trim() || isSending}}">
+          {{isSending ? '发送中...' : '发送'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 消息销毁提示 -->
+  <view class="destroy-tip" wx:if="{{showDestroyTip}}">
+    <text class="tip-text">💡 消息将在对方查看后自动销毁</text>
+  </view>
+</view>

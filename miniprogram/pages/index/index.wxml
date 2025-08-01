@@ -1,0 +1,112 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 用户信息栏 -->
+  <view class="user-info-bar">
+    <view class="user-info">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="user-name">{{userInfo.nickName}}</text>
+        <text class="user-status">{{isRolling ? '摇骰子中...' : '准备摇骰子'}}</text>
+      </view>
+    </view>
+    <view class="stats">
+      <text class="stat-item">匹配: {{matchCount}}</text>
+      <text class="stat-item">今日: {{todayRolls}}</text>
+    </view>
+  </view>
+
+  <!-- 摇骰子区域 -->
+  <view class="dice-section">
+    <view class="dice-container {{isRolling ? 'rolling' : ''}}" bindtap="startRoll">
+      <view class="dice {{diceClass}}">
+        <view class="dice-face face-1" wx:if="{{diceNumber === 1}}">
+          <view class="dot center"></view>
+        </view>
+        <view class="dice-face face-2" wx:if="{{diceNumber === 2}}">
+          <view class="dot top-left"></view>
+          <view class="dot bottom-right"></view>
+        </view>
+        <view class="dice-face face-3" wx:if="{{diceNumber === 3}}">
+          <view class="dot top-left"></view>
+          <view class="dot center"></view>
+          <view class="dot bottom-right"></view>
+        </view>
+        <view class="dice-face face-4" wx:if="{{diceNumber === 4}}">
+          <view class="dot top-left"></view>
+          <view class="dot top-right"></view>
+          <view class="dot bottom-left"></view>
+          <view class="dot bottom-right"></view>
+        </view>
+        <view class="dice-face face-5" wx:if="{{diceNumber === 5}}">
+          <view class="dot top-left"></view>
+          <view class="dot top-right"></view>
+          <view class="dot center"></view>
+          <view class="dot bottom-left"></view>
+          <view class="dot bottom-right"></view>
+        </view>
+        <view class="dice-face face-6" wx:if="{{diceNumber === 6}}">
+          <view class="dot top-left"></view>
+          <view class="dot top-right"></view>
+          <view class="dot middle-left"></view>
+          <view class="dot middle-right"></view>
+          <view class="dot bottom-left"></view>
+          <view class="dot bottom-right"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="dice-info">
+      <text class="dice-number">点数: {{diceNumber}}</text>
+      <text class="dice-tip">{{isRolling ? '摇动手机或点击骰子开始' : '点击骰子开始摇骰子'}}</text>
+    </view>
+
+    <button class="roll-btn btn-primary" bindtap="startRoll" disabled="{{isRolling}}">
+      {{isRolling ? '摇骰子中...' : '摇骰子'}}
+    </button>
+  </view>
+
+  <!-- 匹配结果 -->
+  <view class="match-result" wx:if="{{matchResult}}">
+    <view class="result-header">
+      <text class="result-title">🎉 匹配成功！</text>
+      <text class="result-subtitle">找到了同时摇出{{diceNumber}}点的朋友</text>
+    </view>
+
+    <view class="matched-user card">
+      <view class="user-card">
+        <image class="matched-avatar" src="{{matchResult.avatarUrl}}" mode="aspectFill"></image>
+        <view class="matched-info">
+          <text class="matched-name">{{matchResult.nickName}}</text>
+          <text class="matched-distance">{{matchResult.distance}}km</text>
+          <text class="matched-time">{{matchResult.matchTime}}</text>
+        </view>
+        <button class="chat-btn btn-primary" bindtap="startChat" data-user="{{matchResult}}">
+          开始聊天
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史记录 -->
+  <view class="history-section" wx:if="{{rollHistory.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">今日记录</text>
+      <text class="section-count">共{{rollHistory.length}}次</text>
+    </view>
+    
+    <view class="history-list">
+      <view class="history-item" wx:for="{{rollHistory}}" wx:key="index">
+        <text class="history-number">{{item.number}}</text>
+        <text class="history-time">{{item.time}}</text>
+        <text class="history-status {{item.matched ? 'matched' : 'no-match'}}">
+          {{item.matched ? '已匹配' : '未匹配'}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 摇动提示 -->
+  <view class="shake-tip" wx:if="{{!isRolling}}">
+    <text class="tip-text">💡 摇动手机也可以开始摇骰子哦！</text>
+  </view>
+</view>

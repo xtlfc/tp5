@@ -1,0 +1,269 @@
+/* pages/chat/chat.wxss */
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #F8F9FA;
+}
+
+/* 聊天头部 */
+.chat-header {
+  background: white;
+  padding: 20rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid #F0F0F0;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  border: 4rpx solid #FF6B9D;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.user-status {
+  font-size: 24rpx;
+  color: #FF6B9D;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 10rpx;
+  margin-left: 20rpx;
+}
+
+.action-icon {
+  font-size: 40rpx;
+}
+
+/* 聊天消息区域 */
+.chat-messages {
+  flex: 1;
+  padding: 20rpx;
+  background: #F8F9FA;
+}
+
+.load-more {
+  text-align: center;
+  padding: 20rpx;
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-item {
+  margin-bottom: 30rpx;
+}
+
+.message-item.self {
+  align-items: flex-end;
+}
+
+.message-item.other {
+  align-items: flex-start;
+}
+
+/* 时间分割线 */
+.time-divider {
+  text-align: center;
+  margin: 20rpx 0;
+}
+
+.time-text {
+  font-size: 24rpx;
+  color: #999;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+/* 消息内容 */
+.message-content {
+  display: flex;
+  align-items: flex-end;
+  max-width: 70%;
+}
+
+.message-item.self .message-content {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin: 0 20rpx;
+  border: 2rpx solid #FF6B9D;
+}
+
+.message-bubble {
+  background: white;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.message-item.self .message-bubble {
+  background: linear-gradient(135deg, #FF6B9D 0%, #FF8E53 100%);
+  color: white;
+}
+
+.message-text {
+  font-size: 28rpx;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.message-item.self .message-text {
+  color: white;
+}
+
+.message-image {
+  max-width: 400rpx;
+  border-radius: 10rpx;
+}
+
+.message-status {
+  margin-top: 10rpx;
+  text-align: right;
+}
+
+.status-text {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.message-item.self .status-text {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.status-text.sending {
+  color: #FFA500;
+}
+
+.status-text.sent {
+  color: #52C41A;
+}
+
+.status-text.read {
+  color: #1890FF;
+}
+
+.status-text.failed {
+  color: #FF4D4F;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 40rpx;
+  color: #999;
+}
+
+.empty-icon {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 40rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 输入区域 */
+.chat-input {
+  background: white;
+  padding: 20rpx 30rpx;
+  border-top: 2rpx solid #F0F0F0;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  background: #F8F9FA;
+  border-radius: 50rpx;
+  padding: 10rpx 20rpx;
+}
+
+.message-input {
+  flex: 1;
+  font-size: 28rpx;
+  padding: 20rpx;
+  background: none;
+  border: none;
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 10rpx;
+  margin-right: 20rpx;
+}
+
+.send-btn {
+  width: 120rpx;
+  height: 60rpx;
+  font-size: 28rpx;
+  border-radius: 30rpx;
+}
+
+.send-btn[disabled] {
+  background: #F0F0F0;
+  color: #999;
+}
+
+/* 销毁提示 */
+.destroy-tip {
+  background: rgba(255, 107, 157, 0.1);
+  padding: 20rpx;
+  text-align: center;
+  border-top: 2rpx solid rgba(255, 107, 157, 0.2);
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: #FF6B9D;
+}

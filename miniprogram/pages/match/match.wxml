@@ -1,0 +1,102 @@
+<!--pages/match/match.wxml-->
+<view class="container">
+  <!-- 匹配统计 -->
+  <view class="stats-section">
+    <view class="stats-card card">
+      <view class="stats-header">
+        <text class="stats-title">匹配统计</text>
+      </view>
+      <view class="stats-content">
+        <view class="stat-item">
+          <text class="stat-number">{{totalMatches}}</text>
+          <text class="stat-label">总匹配</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{todayMatches}}</text>
+          <text class="stat-label">今日匹配</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{activeChats}}</text>
+          <text class="stat-label">活跃聊天</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 聊天会话列表 -->
+  <view class="chat-sessions">
+    <view class="section-header">
+      <text class="section-title">聊天会话</text>
+      <text class="section-count">共{{chatSessions.length}}个</text>
+    </view>
+
+    <view class="session-list" wx:if="{{chatSessions.length > 0}}">
+      <view 
+        class="session-item card" 
+        wx:for="{{chatSessions}}" 
+        wx:key="id"
+        bindtap="openChat"
+        data-session="{{item}}"
+      >
+        <view class="session-content">
+          <image class="session-avatar" src="{{item.matchedUserInfo.avatarUrl}}" mode="aspectFill"></image>
+          <view class="session-info">
+            <view class="session-header">
+              <text class="session-name">{{item.matchedUserInfo.nickName}}</text>
+              <text class="session-time">{{item.lastMessageTimeText}}</text>
+            </view>
+            <view class="session-message">
+              <text class="message-preview" wx:if="{{item.lastMessage}}">
+                {{item.lastMessage.isSelf ? '我: ' : ''}}{{item.lastMessage.content}}
+              </text>
+              <text class="no-message" wx:else>暂无消息</text>
+            </view>
+          </view>
+          <view class="session-actions">
+            <view class="unread-badge" wx:if="{{item.unreadCount > 0}}">
+              <text class="badge-text">{{item.unreadCount}}</text>
+            </view>
+            <text class="action-icon">></text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <image class="empty-icon" src="/images/empty-match.png" mode="aspectFit"></image>
+      <text class="empty-text">还没有匹配到朋友哦～</text>
+      <text class="empty-subtext">快去摇骰子寻找缘分吧！</text>
+      <button class="go-roll-btn btn-primary" bindtap="goToRoll">
+        去摇骰子
+      </button>
+    </view>
+  </view>
+
+  <!-- 匹配历史 -->
+  <view class="match-history" wx:if="{{matchHistory.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">匹配历史</text>
+      <text class="section-count">共{{matchHistory.length}}次</text>
+    </view>
+
+    <view class="history-list">
+      <view class="history-item card" wx:for="{{matchHistory}}" wx:key="id">
+        <view class="history-content">
+          <image class="history-avatar" src="{{item.matchedUser.avatarUrl}}" mode="aspectFill"></image>
+          <view class="history-info">
+            <text class="history-name">{{item.matchedUser.nickName}}</text>
+            <text class="history-details">
+              点数: {{item.diceNumber}} | 距离: {{item.distance}}km | {{item.matchTimeText}}
+            </text>
+          </view>
+          <view class="history-status">
+            <text class="status-text {{item.isActive ? 'active' : 'inactive'}}">
+              {{item.isActive ? '活跃' : '已结束'}}
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
