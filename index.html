@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摇骰子游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎲 摇骰子游戏 🎲</h1>
+            <p>点击骰子或按钮开始摇骰子！</p>
+        </header>
+
+        <div class="game-area">
+            <div class="dice-container">
+                <div class="dice" id="dice">
+                    <div class="face face-1">
+                        <div class="dot center"></div>
+                    </div>
+                    <div class="face face-2">
+                        <div class="dot top-left"></div>
+                        <div class="dot bottom-right"></div>
+                    </div>
+                    <div class="face face-3">
+                        <div class="dot top-left"></div>
+                        <div class="dot center"></div>
+                        <div class="dot bottom-right"></div>
+                    </div>
+                    <div class="face face-4">
+                        <div class="dot top-left"></div>
+                        <div class="dot top-right"></div>
+                        <div class="dot bottom-left"></div>
+                        <div class="dot bottom-right"></div>
+                    </div>
+                    <div class="face face-5">
+                        <div class="dot top-left"></div>
+                        <div class="dot top-right"></div>
+                        <div class="dot center"></div>
+                        <div class="dot bottom-left"></div>
+                        <div class="dot bottom-right"></div>
+                    </div>
+                    <div class="face face-6">
+                        <div class="dot top-left"></div>
+                        <div class="dot top-right"></div>
+                        <div class="dot middle-left"></div>
+                        <div class="dot middle-right"></div>
+                        <div class="dot bottom-left"></div>
+                        <div class="dot bottom-right"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="rollBtn" class="roll-btn">摇骰子</button>
+                <button id="resetBtn" class="reset-btn">重置</button>
+            </div>
+
+            <div class="result-display">
+                <div class="current-roll">
+                    <span>当前点数：</span>
+                    <span id="currentNumber">1</span>
+                </div>
+                <div class="roll-history">
+                    <h3>历史记录</h3>
+                    <div id="historyList"></div>
+                    <div class="stats">
+                        <span>总次数：<span id="totalRolls">0</span></span>
+                        <span>平均值：<span id="average">0</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
