@@ -1,0 +1,101 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card card">
+    <view class="user-header">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="user-name">{{userInfo.nickName}}</text>
+        <text class="user-id">ID: {{openid}}</text>
+        <text class="user-location" wx:if="{{location}}">
+          📍 {{location.city || '未知位置'}}
+        </text>
+      </view>
+      <button class="edit-btn" bindtap="editProfile">
+        <text class="edit-icon">✏️</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-section">
+    <view class="stats-card card">
+      <view class="stats-header">
+        <text class="stats-title">我的数据</text>
+      </view>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-number">{{totalRolls}}</text>
+          <text class="stat-label">总摇骰子</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{totalMatches}}</text>
+          <text class="stat-label">总匹配</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{todayRolls}}</text>
+          <text class="stat-label">今日摇骰子</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{todayMatches}}</text>
+          <text class="stat-label">今日匹配</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-card card">
+      <view class="menu-item" bindtap="showRollHistory">
+        <view class="menu-icon">📊</view>
+        <text class="menu-text">摇骰子历史</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="showMatchHistory">
+        <view class="menu-icon">👥</view>
+        <text class="menu-text">匹配历史</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="showSettings">
+        <view class="menu-icon">⚙️</view>
+        <text class="menu-text">设置</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="showAbout">
+        <view class="menu-icon">ℹ️</view>
+        <text class="menu-text">关于我们</text>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 位置设置 -->
+  <view class="location-section">
+    <view class="location-card card">
+      <view class="location-header">
+        <text class="location-title">位置设置</text>
+        <switch 
+          class="location-switch" 
+          checked="{{locationEnabled}}" 
+          bindchange="toggleLocation"
+        />
+      </view>
+      <text class="location-desc">
+        开启位置权限可以匹配到附近的用户，提高匹配成功率
+      </text>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="logout">
+      退出登录
+    </button>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="version-text">版本 1.0.0</text>
+  </view>
+</view>

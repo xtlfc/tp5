@@ -1,0 +1,47 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <view class="login-header">
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <text class="app-name">摇骰子交友</text>
+    <text class="app-desc">摇一摇，遇见缘分</text>
+  </view>
+
+  <view class="login-content">
+    <view class="welcome-text">
+      <text class="title">欢迎使用摇骰子交友</text>
+      <text class="subtitle">通过摇骰子匹配到志同道合的朋友</text>
+    </view>
+
+    <view class="login-form">
+      <button 
+        class="login-btn btn-primary" 
+        open-type="getUserInfo" 
+        bindgetuserinfo="onGetUserInfo"
+        loading="{{isLoading}}"
+      >
+        <image class="wechat-icon" src="/images/wechat.png" mode="aspectFit"></image>
+        <text>微信授权登录</text>
+      </button>
+
+      <view class="privacy-policy">
+        <text class="policy-text">登录即表示同意</text>
+        <text class="policy-link" bindtap="showPrivacyPolicy">《用户协议和隐私政策》</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="features">
+    <view class="feature-item">
+      <image class="feature-icon" src="/images/dice-icon.png" mode="aspectFit"></image>
+      <text class="feature-text">摇骰子匹配</text>
+    </view>
+    <view class="feature-item">
+      <image class="feature-icon" src="/images/chat-icon.png" mode="aspectFit"></image>
+      <text class="feature-text">即时聊天</text>
+    </view>
+    <view class="feature-item">
+      <image class="feature-icon" src="/images/location-icon.png" mode="aspectFit"></image>
+      <text class="feature-text">附近匹配</text>
+    </view>
+  </view>
+</view>
