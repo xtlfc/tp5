@@ -1,0 +1,76 @@
+<!--pages/voice-call/voice-call.wxml-->
+<view class="voice-call-container">
+  <!-- 背景 -->
+  <view class="call-background">
+    <view class="background-pattern"></view>
+  </view>
+
+  <!-- 通话信息 -->
+  <view class="call-info">
+    <view class="caller-info">
+      <image class="caller-avatar" src="{{callerInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="caller-details">
+        <text class="caller-name">{{callerInfo.nickName}}</text>
+        <text class="call-status">{{callStatus}}</text>
+      </view>
+    </view>
+    <text class="call-duration">{{callDuration}}</text>
+  </view>
+
+  <!-- 通话状态提示 -->
+  <view class="call-status-tip" wx:if="{{showStatusTip}}">
+    <text class="tip-text">{{statusTipText}}</text>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="control-buttons">
+    <!-- 麦克风开关 -->
+    <view class="control-btn {{isLocalAudioMuted ? 'active' : ''}}" bindtap="toggleAudio">
+      <text class="btn-icon">{{isLocalAudioMuted ? '🎤' : '🎤'}}</text>
+      <text class="btn-text">{{isLocalAudioMuted ? '开启' : '关闭'}}</text>
+    </view>
+
+    <!-- 扬声器开关 -->
+    <view class="control-btn {{isSpeakerOn ? 'active' : ''}}" bindtap="toggleSpeaker">
+      <text class="btn-icon">{{isSpeakerOn ? '🔊' : '🔊'}}</text>
+      <text class="btn-text">{{isSpeakerOn ? '关闭' : '开启'}}</text>
+    </view>
+
+    <!-- 挂断电话 -->
+    <view class="control-btn hangup" bindtap="hangup">
+      <text class="btn-icon">📞</text>
+      <text class="btn-text">挂断</text>
+    </view>
+  </view>
+
+  <!-- 网络状态 -->
+  <view class="network-status">
+    <text class="network-text">网络: {{networkQuality}}</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-overlay" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
+  <!-- 来电界面 -->
+  <view class="incoming-call" wx:if="{{isIncoming && !isAnswered}}">
+    <view class="incoming-info">
+      <image class="incoming-avatar" src="{{callerInfo.avatarUrl}}" mode="aspectFill"></image>
+      <text class="incoming-name">{{callerInfo.nickName}}</text>
+      <text class="incoming-text">来电</text>
+    </view>
+    
+    <view class="incoming-actions">
+      <button class="answer-btn" bindtap="answerCall">
+        <text class="answer-icon">📞</text>
+        <text class="answer-text">接听</text>
+      </button>
+      <button class="reject-btn" bindtap="rejectCall">
+        <text class="reject-icon">📞</text>
+        <text class="reject-text">拒绝</text>
+      </button>
+    </view>
+  </view>
+</view>

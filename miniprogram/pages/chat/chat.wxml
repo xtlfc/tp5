@@ -10,8 +10,17 @@
       </view>
     </view>
     <view class="header-actions">
+      <button class="action-btn" bindtap="startVideoCall">
+        <text class="action-icon">📹</text>
+      </button>
+      <button class="action-btn" bindtap="startVoiceCall">
+        <text class="action-icon">📞</text>
+      </button>
       <button class="action-btn" bindtap="showUserProfile">
         <text class="action-icon">👤</text>
+      </button>
+      <button class="action-btn" bindtap="showUserActions">
+        <text class="action-icon">⋯</text>
       </button>
     </view>
   </view>

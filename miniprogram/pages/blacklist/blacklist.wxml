@@ -1,0 +1,49 @@
+<!--pages/blacklist/blacklist.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">黑名单</text>
+    <text class="page-subtitle">已屏蔽 {{blacklist.length}} 人</text>
+  </view>
+
+  <!-- 黑名单列表 -->
+  <view class="blacklist-container" wx:if="{{blacklist.length > 0}}">
+    <view 
+      class="blacklist-item card"
+      wx:for="{{blacklist}}" 
+      wx:key="id"
+    >
+      <view class="user-info">
+        <image class="user-avatar" src="{{item.userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-details">
+          <text class="user-name">{{item.userInfo.nickName}}</text>
+          <text class="block-time">屏蔽时间: {{item.blockTimeText}}</text>
+          <text class="block-reason" wx:if="{{item.reason}}">原因: {{item.reason}}</text>
+        </view>
+      </view>
+      
+      <view class="item-actions">
+        <button class="action-btn unblock" bindtap="unblockUser" data-id="{{item.id}}">
+          解除屏蔽
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <image class="empty-icon" src="/images/empty-blacklist.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无黑名单</text>
+    <text class="empty-subtext">您还没有屏蔽任何用户</text>
+  </view>
+
+  <!-- 批量操作 -->
+  <view class="batch-actions" wx:if="{{blacklist.length > 0}}">
+    <button class="batch-btn" bindtap="selectAll">
+      {{isAllSelected ? '取消全选' : '全选'}}
+    </button>
+    <button class="batch-btn danger" bindtap="batchUnblock" disabled="{{!hasSelection}}">
+      批量解除屏蔽
+    </button>
+  </view>
+</view>

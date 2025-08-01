@@ -47,8 +47,23 @@
   <!-- 功能菜单 -->
   <view class="menu-section">
     <view class="menu-card card">
-      <view class="menu-item" bindtap="showRollHistory">
+      <view class="menu-item" bindtap="editProfile">
+        <view class="menu-icon">✏️</view>
+        <text class="menu-text">编辑资料</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="showAnalytics">
         <view class="menu-icon">📊</view>
+        <text class="menu-text">数据统计</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="showBlacklist">
+        <view class="menu-icon">🚫</view>
+        <text class="menu-text">黑名单</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="showRollHistory">
+        <view class="menu-icon">🎲</view>
         <text class="menu-text">摇骰子历史</text>
         <text class="menu-arrow">></text>
       </view>

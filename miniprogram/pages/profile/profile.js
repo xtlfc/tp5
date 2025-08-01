@@ -115,9 +115,22 @@ Page({
 
   // 编辑资料
   editProfile() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none'
+    wx.navigateTo({
+      url: '/pages/edit-profile/edit-profile'
+    })
+  },
+
+  // 显示数据统计
+  showAnalytics() {
+    wx.navigateTo({
+      url: '/pages/analytics/analytics'
+    })
+  },
+
+  // 显示黑名单
+  showBlacklist() {
+    wx.navigateTo({
+      url: '/pages/blacklist/blacklist'
     })
   },
 

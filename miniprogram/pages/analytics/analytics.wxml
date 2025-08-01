@@ -1,0 +1,152 @@
+<!--pages/analytics/analytics.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">数据统计</text>
+    <text class="page-subtitle">了解您的使用情况</text>
+  </view>
+
+  <!-- 总体统计 -->
+  <view class="stats-overview">
+    <view class="stat-card card">
+      <view class="stat-icon">🎲</view>
+      <view class="stat-info">
+        <text class="stat-value">{{overview.totalRolls}}</text>
+        <text class="stat-label">总摇骰子次数</text>
+      </view>
+    </view>
+    
+    <view class="stat-card card">
+      <view class="stat-icon">👥</view>
+      <view class="stat-info">
+        <text class="stat-value">{{overview.totalMatches}}</text>
+        <text class="stat-label">总匹配次数</text>
+      </view>
+    </view>
+    
+    <view class="stat-card card">
+      <view class="stat-icon">💬</view>
+      <view class="stat-info">
+        <text class="stat-value">{{overview.totalMessages}}</text>
+        <text class="stat-label">总消息数</text>
+      </view>
+    </view>
+    
+    <view class="stat-card card">
+      <view class="stat-icon">📞</view>
+      <view class="stat-info">
+        <text class="stat-value">{{overview.totalCalls}}</text>
+        <text class="stat-label">总通话次数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日统计 -->
+  <view class="today-stats card">
+    <view class="section-title">今日数据</view>
+    <view class="today-grid">
+      <view class="today-item">
+        <text class="today-value">{{todayStats.rolls}}</text>
+        <text class="today-label">摇骰子</text>
+      </view>
+      <view class="today-item">
+        <text class="today-value">{{todayStats.matches}}</text>
+        <text class="today-label">匹配</text>
+      </view>
+      <view class="today-item">
+        <text class="today-value">{{todayStats.messages}}</text>
+        <text class="today-label">消息</text>
+      </view>
+      <view class="today-item">
+        <text class="today-value">{{todayStats.calls}}</text>
+        <text class="today-label">通话</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 匹配分析 -->
+  <view class="match-analysis card">
+    <view class="section-title">匹配分析</view>
+    
+    <view class="analysis-item">
+      <text class="analysis-label">匹配成功率</text>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{matchRate}}%"></view>
+      </view>
+      <text class="analysis-value">{{matchRate}}%</text>
+    </view>
+    
+    <view class="analysis-item">
+      <text class="analysis-label">平均匹配距离</text>
+      <text class="analysis-value">{{avgDistance}}km</text>
+    </view>
+    
+    <view class="analysis-item">
+      <text class="analysis-label">最常摇出的点数</text>
+      <text class="analysis-value">{{mostCommonDice}}</text>
+    </view>
+  </view>
+
+  <!-- 活跃时间 -->
+  <view class="activity-time card">
+    <view class="section-title">活跃时间分析</view>
+    
+    <view class="time-chart">
+      <view 
+        class="time-bar"
+        wx:for="{{activityTime}}" 
+        wx:key="hour"
+        style="height: {{item.percentage}}%"
+      >
+        <text class="time-label">{{item.hour}}:00</text>
+        <text class="time-value">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用趋势 -->
+  <view class="usage-trend card">
+    <view class="section-title">使用趋势（近7天）</view>
+    
+    <view class="trend-chart">
+      <view 
+        class="trend-item"
+        wx:for="{{usageTrend}}" 
+        wx:key="date"
+      >
+        <view class="trend-bar" style="height: {{item.percentage}}%"></view>
+        <text class="trend-date">{{item.date}}</text>
+        <text class="trend-value">{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能使用排行 -->
+  <view class="feature-ranking card">
+    <view class="section-title">功能使用排行</view>
+    
+    <view class="ranking-list">
+      <view 
+        class="ranking-item"
+        wx:for="{{featureRanking}}" 
+        wx:key="name"
+      >
+        <view class="ranking-info">
+          <text class="ranking-icon">{{item.icon}}</text>
+          <text class="ranking-name">{{item.name}}</text>
+        </view>
+        <view class="ranking-stats">
+          <text class="ranking-count">{{item.count}}次</text>
+          <text class="ranking-percentage">{{item.percentage}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 刷新按钮 -->
+  <view class="refresh-section">
+    <button class="refresh-btn" bindtap="refreshData" loading="{{isRefreshing}}">
+      {{isRefreshing ? '刷新中...' : '刷新数据'}}
+    </button>
+  </view>
+</view>

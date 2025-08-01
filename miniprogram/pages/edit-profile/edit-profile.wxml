@@ -1,0 +1,129 @@
+<!--pages/edit-profile/edit-profile.wxml-->
+<view class="container">
+  <!-- 头像编辑 -->
+  <view class="avatar-section">
+    <view class="avatar-container">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="avatar-edit-btn" bindtap="chooseAvatar">
+        <text class="edit-icon">📷</text>
+      </view>
+    </view>
+    <text class="avatar-tip">点击更换头像</text>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <view class="section-title">基本信息</view>
+    
+    <view class="form-item">
+      <text class="form-label">昵称</text>
+      <input 
+        class="form-input" 
+        value="{{userInfo.nickName}}"
+        placeholder="请输入昵称"
+        bindinput="onNickNameChange"
+        maxlength="20"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">性别</text>
+      <picker 
+        class="form-picker" 
+        range="{{genderOptions}}" 
+        value="{{genderIndex}}"
+        bindchange="onGenderChange"
+      >
+        <view class="picker-text">{{genderOptions[genderIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">年龄</text>
+      <picker 
+        class="form-picker" 
+        range="{{ageOptions}}" 
+        value="{{ageIndex}}"
+        bindchange="onAgeChange"
+      >
+        <view class="picker-text">{{ageOptions[ageIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">城市</text>
+      <picker 
+        class="form-picker" 
+        mode="region" 
+        value="{{region}}"
+        bindchange="onRegionChange"
+      >
+        <view class="picker-text">{{regionText}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 个人介绍 -->
+  <view class="form-section">
+    <view class="section-title">个人介绍</view>
+    
+    <view class="form-item">
+      <textarea 
+        class="form-textarea" 
+        value="{{userInfo.bio}}"
+        placeholder="介绍一下自己吧..."
+        bindinput="onBioChange"
+        maxlength="200"
+        auto-height
+      ></textarea>
+      <text class="char-count">{{userInfo.bio.length}}/200</text>
+    </view>
+  </view>
+
+  <!-- 兴趣爱好 -->
+  <view class="form-section">
+    <view class="section-title">兴趣爱好</view>
+    
+    <view class="hobby-tags">
+      <view 
+        class="hobby-tag {{item.selected ? 'selected' : ''}}"
+        wx:for="{{hobbyOptions}}" 
+        wx:key="id"
+        bindtap="toggleHobby"
+        data-id="{{item.id}}"
+      >
+        <text class="tag-text">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="form-section">
+    <view class="section-title">隐私设置</view>
+    
+    <view class="form-item">
+      <text class="form-label">位置可见</text>
+      <switch 
+        class="form-switch" 
+        checked="{{userInfo.locationVisible}}"
+        bindchange="onLocationVisibleChange"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">在线状态</text>
+      <switch 
+        class="form-switch" 
+        checked="{{userInfo.onlineVisible}}"
+        bindchange="onOnlineVisibleChange"
+      />
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-section">
+    <button class="save-btn btn-primary" bindtap="saveProfile" loading="{{isSaving}}">
+      {{isSaving ? '保存中...' : '保存资料'}}
+    </button>
+  </view>
+</view>

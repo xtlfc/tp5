@@ -1,0 +1,110 @@
+/* components/lazy-image/lazy-image.wxss */
+.lazy-image-container {
+  position: relative;
+  overflow: hidden;
+  background: #F8F9FA;
+}
+
+.lazy-image {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+/* 加载中状态 */
+.loading-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F8F9FA;
+}
+
+.loading-spinner {
+  width: 40rpx;
+  height: 40rpx;
+  border: 4rpx solid #E0E0E0;
+  border-top: 4rpx solid #FF6B9D;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 错误状态 */
+.error-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F8F9FA;
+}
+
+.error-image {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.5;
+}
+
+.error-text {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.retry-btn {
+  background: #FF6B9D;
+  color: white;
+  border: none;
+  border-radius: 20rpx;
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+}
+
+.retry-btn:active {
+  background: #FF8E53;
+}
+
+/* 占位符 */
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F8F9FA;
+}
+
+.placeholder-image {
+  width: 60rpx;
+  height: 60rpx;
+  opacity: 0.3;
+}

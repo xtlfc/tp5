@@ -1,0 +1,24 @@
+<!--components/virtual-list/virtual-list.wxml-->
+<scroll-view 
+  class="virtual-list-container"
+  scroll-y="true"
+  scroll-top="{{scrollTop}}"
+  style="height: {{containerHeight}}rpx;"
+  bindscroll="onScroll"
+  bindscrolltolower="onScrollToLower"
+  bindscrolltoupper="onScrollToUpper"
+>
+  <view class="virtual-list" style="{{listStyle}}">
+    <view 
+      class="virtual-item"
+      wx:for="{{visibleItems}}" 
+      wx:key="_virtualIndex"
+      style="height: {{itemHeight}}rpx; {{item._virtualStyle}}"
+      bindtap="onItemTap"
+      data-item="{{item}}"
+      data-index="{{item._virtualIndex}}"
+    >
+      <slot name="item" item="{{item}}" index="{{item._virtualIndex}}"></slot>
+    </view>
+  </view>
+</scroll-view>

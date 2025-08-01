@@ -1,0 +1,31 @@
+<!--components/lazy-image/lazy-image.wxml-->
+<view class="lazy-image-container" style="width: {{width}}; height: {{height}}; border-radius: {{borderRadius}};">
+  <!-- 加载中状态 -->
+  <view class="loading-container" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error-container" wx:if="{{isError && !isLoading}}">
+    <image class="error-image" src="{{errorImage}}" mode="aspectFit"></image>
+    <text class="error-text">加载失败</text>
+    <button class="retry-btn" bindtap="reload">重试</button>
+  </view>
+
+  <!-- 图片 -->
+  <image 
+    class="lazy-image {{isLoaded ? 'loaded' : ''}}"
+    src="{{imageSrc}}"
+    mode="{{mode}}"
+    bindload="onImageLoad"
+    binderror="onImageError"
+    bindtap="onImageTap"
+    style="width: {{width}}; height: {{height}}; border-radius: {{borderRadius}};"
+  ></image>
+
+  <!-- 占位符 -->
+  <view class="placeholder" wx:if="{{!isLoaded && !isLoading && !isError}}">
+    <image class="placeholder-image" src="{{placeholder}}" mode="aspectFit"></image>
+  </view>
+</view>

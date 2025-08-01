@@ -1,0 +1,83 @@
+<!--pages/video-call/video-call.wxml-->
+<view class="video-call-container">
+  <!-- 主视频区域 -->
+  <view class="main-video-area">
+    <live-pusher
+      id="localVideo"
+      class="local-video {{isLocalVideoMuted ? 'muted' : ''}}"
+      url="{{pushUrl}}"
+      mode="RTC"
+      beauty="0"
+      whiteness="0"
+      aspect="9:16"
+      device-position="front"
+      bindstatechange="onLocalVideoStateChange"
+      binderror="onLocalVideoError"
+    ></live-pusher>
+
+    <live-player
+      id="remoteVideo"
+      class="remote-video {{isRemoteVideoMuted ? 'muted' : ''}}"
+      src="{{playUrl}}"
+      mode="RTC"
+      object-fit="contain"
+      bindstatechange="onRemoteVideoStateChange"
+      binderror="onRemoteVideoError"
+    ></live-player>
+  </view>
+
+  <!-- 通话信息 -->
+  <view class="call-info">
+    <view class="caller-info">
+      <image class="caller-avatar" src="{{callerInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="caller-details">
+        <text class="caller-name">{{callerInfo.nickName}}</text>
+        <text class="call-status">{{callStatus}}</text>
+      </view>
+    </view>
+    <text class="call-duration">{{callDuration}}</text>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="control-buttons">
+    <!-- 摄像头开关 -->
+    <view class="control-btn {{isLocalVideoMuted ? 'active' : ''}}" bindtap="toggleVideo">
+      <text class="btn-icon">{{isLocalVideoMuted ? '📹' : '📹'}}</text>
+      <text class="btn-text">{{isLocalVideoMuted ? '开启' : '关闭'}}</text>
+    </view>
+
+    <!-- 麦克风开关 -->
+    <view class="control-btn {{isLocalAudioMuted ? 'active' : ''}}" bindtap="toggleAudio">
+      <text class="btn-icon">{{isLocalAudioMuted ? '🎤' : '🎤'}}</text>
+      <text class="btn-text">{{isLocalAudioMuted ? '开启' : '关闭'}}</text>
+    </view>
+
+    <!-- 切换摄像头 -->
+    <view class="control-btn" bindtap="switchCamera">
+      <text class="btn-icon">🔄</text>
+      <text class="btn-text">切换</text>
+    </view>
+
+    <!-- 挂断电话 -->
+    <view class="control-btn hangup" bindtap="hangup">
+      <text class="btn-icon">📞</text>
+      <text class="btn-text">挂断</text>
+    </view>
+  </view>
+
+  <!-- 通话状态提示 -->
+  <view class="call-status-tip" wx:if="{{showStatusTip}}">
+    <text class="tip-text">{{statusTipText}}</text>
+  </view>
+
+  <!-- 网络状态 -->
+  <view class="network-status">
+    <text class="network-text">网络: {{networkQuality}}</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-overlay" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+</view>

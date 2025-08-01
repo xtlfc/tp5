@@ -302,12 +302,92 @@ Page({
     })
   },
 
+  // 开始视频通话
+  startVideoCall() {
+    const callId = `video_${Date.now()}`
+    wx.navigateTo({
+      url: `/pages/video-call/video-call?callId=${callId}&callerId=${this.data.matchedUser.openid}&isIncoming=false`
+    })
+  },
+
+  // 开始语音通话
+  startVoiceCall() {
+    const callId = `voice_${Date.now()}`
+    wx.navigateTo({
+      url: `/pages/voice-call/voice-call?callId=${callId}&callerId=${this.data.matchedUser.openid}&isIncoming=false`
+    })
+  },
+
   // 显示用户资料
   showUserProfile() {
     wx.showModal({
       title: this.data.matchedUser.nickName,
       content: `距离: ${this.calculateDistance(this.data.matchedUser.location)}km\n匹配时间: ${this.formatTime(this.data.matchedUser.lastRollTime)}`,
       showCancel: false
+    })
+  },
+
+  // 显示用户操作菜单
+  showUserActions() {
+    wx.showActionSheet({
+      itemList: ['举报用户', '拉黑用户', '取消'],
+      success: (res) => {
+        switch (res.tapIndex) {
+          case 0:
+            this.reportUser()
+            break
+          case 1:
+            this.blockUser()
+            break
+        }
+      }
+    })
+  },
+
+  // 举报用户
+  reportUser() {
+    wx.navigateTo({
+      url: `/pages/report/report?userId=${this.data.matchedUser.openid}`
+    })
+  },
+
+  // 拉黑用户
+  blockUser() {
+    wx.showModal({
+      title: '确认拉黑',
+      content: `确定要拉黑 ${this.data.matchedUser.nickName} 吗？拉黑后将无法收到对方的消息。`,
+      success: async (res) => {
+        if (res.confirm) {
+          try {
+            const db = wx.cloud.database()
+            await db.collection('blacklist').add({
+              data: {
+                userId: app.globalData.openid,
+                blockedUserId: this.data.matchedUser.openid,
+                blockTime: new Date(),
+                reason: '用户主动拉黑'
+              }
+            })
+
+            wx.showToast({
+              title: '已拉黑',
+              icon: 'success'
+            })
+
+            // 返回上一页
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1500)
+
+          } catch (error) {
+            console.error('拉黑失败:', error)
+            wx.showToast({
+              title: '操作失败',
+              icon: 'none'
+            })
+          }
+        }
+      }
     })
   },
 

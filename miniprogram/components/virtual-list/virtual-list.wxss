@@ -1,0 +1,17 @@
+/* components/virtual-list/virtual-list.wxss */
+.virtual-list-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.virtual-list {
+  position: relative;
+  width: 100%;
+}
+
+.virtual-item {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
