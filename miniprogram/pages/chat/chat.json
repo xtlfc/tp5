@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "聊天",
+  "navigationBarBackgroundColor": "#FF6B9D",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f5f5f5",
+  "usingComponents": {
+    "voice-message": "/components/voice-message/voice-message"
+  }
+}

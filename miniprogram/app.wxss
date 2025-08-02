@@ -81,18 +81,33 @@ page {
   flex-direction: column;
 }
 
+/* 头像样式 - 确保所有头像都是圆形 */
+.avatar,
+.user-avatar,
+.message-avatar,
+.session-avatar,
+.header-avatar,
+.profile-avatar {
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
 .avatar {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 50%;
   border: 4rpx solid #FF6B9D;
 }
 
 .avatar-large {
   width: 200rpx;
   height: 200rpx;
-  border-radius: 50%;
   border: 6rpx solid #FF6B9D;
+}
+
+.avatar-small {
+  width: 80rpx;
+  height: 80rpx;
+  border: 2rpx solid #FF6B9D;
 }
 
 .badge {

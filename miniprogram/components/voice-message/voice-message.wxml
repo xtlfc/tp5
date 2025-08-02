@@ -1,0 +1,21 @@
+<!--components/voice-message/voice-message.wxml-->
+<view class="voice-message {{isSelf ? 'self' : 'other'}}" bindtap="togglePlay">
+  <!-- 播放图标 -->
+  <view class="voice-icon">
+    <text class="icon {{isPlaying ? 'playing' : ''}}">
+      {{isSelf ? '▶' : '◀'}}
+    </text>
+  </view>
+  
+  <!-- 波形动画 -->
+  <view class="wave-container">
+    <view class="wave {{isPlaying ? 'animate' : ''}}">
+      <view class="wave-bar" wx:for="{{[1,2,3,4,5]}}" wx:key="*this"></view>
+    </view>
+  </view>
+  
+  <!-- 时长显示 -->
+  <view class="duration">
+    <text class="time-text">{{formatTime(duration)}}</text>
+  </view>
+</view>

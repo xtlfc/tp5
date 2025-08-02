@@ -14,7 +14,12 @@ Page({
     showDestroyTip: true,
     chatId: '',
     page: 1,
-    pageSize: 20
+    pageSize: 20,
+    isRecording: false,
+    recordTime: 0,
+    recordTipText: '手指上滑，取消发送',
+    recordTimer: null,
+    recorderManager: null
   },
 
   onLoad(options) {
@@ -444,10 +449,215 @@ Page({
     return timeDiff > 300000 // 5分钟间隔显示时间
   },
 
+  // 返回上一页
+  goBack() {
+    wx.navigateBack()
+  },
+
+  // 显示消息操作菜单
+  showMessageActions(e) {
+    const message = e.currentTarget.dataset.message
+    
+    // 只有自己发送的消息且对方未读时才能删除
+    if (message.isSelf && message.status !== 'read') {
+      wx.showActionSheet({
+        itemList: ['删除消息', '取消'],
+        success: (res) => {
+          if (res.tapIndex === 0) {
+            this.deleteMessage(message.id)
+          }
+        }
+      })
+    }
+  },
+
+  // 删除消息
+  async deleteMessage(messageId) {
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这条消息吗？',
+      success: async (res) => {
+        if (res.confirm) {
+          try {
+            const db = wx.cloud.database()
+            await db.collection('messages').doc(messageId).remove()
+            
+            // 从本地消息列表中移除
+            const messages = this.data.messages.filter(msg => msg.id !== messageId)
+            this.setData({ messages })
+            
+            wx.showToast({
+              title: '已删除',
+              icon: 'success'
+            })
+          } catch (error) {
+            console.error('删除消息失败:', error)
+            wx.showToast({
+              title: '删除失败',
+              icon: 'none'
+            })
+          }
+        }
+      }
+    })
+  },
+
+  // 开始录音
+  startRecord() {
+    this.setData({
+      isRecording: true,
+      recordTime: 0,
+      recordTipText: '手指上滑，取消发送'
+    })
+
+    // 初始化录音管理器
+    if (!this.data.recorderManager) {
+      this.data.recorderManager = wx.getRecorderManager()
+      
+      this.data.recorderManager.onStart(() => {
+        console.log('录音开始')
+        this.startRecordTimer()
+      })
+      
+      this.data.recorderManager.onStop((res) => {
+        console.log('录音结束', res)
+        this.stopRecordTimer()
+        if (res.duration > 1000) { // 至少1秒
+          this.sendVoiceMessage(res.tempFilePath, res.duration)
+        }
+      })
+      
+      this.data.recorderManager.onError((error) => {
+        console.error('录音错误:', error)
+        this.setData({ isRecording: false })
+        wx.showToast({
+          title: '录音失败',
+          icon: 'none'
+        })
+      })
+    }
+
+    // 开始录音
+    this.data.recorderManager.start({
+      duration: 60000, // 最长60秒
+      sampleRate: 16000,
+      numberOfChannels: 1,
+      encodeBitRate: 48000,
+      format: 'mp3'
+    })
+  },
+
+  // 停止录音
+  stopRecord() {
+    if (this.data.isRecording) {
+      this.setData({ isRecording: false })
+      this.data.recorderManager.stop()
+    }
+  },
+
+  // 取消录音
+  cancelRecord() {
+    if (this.data.isRecording) {
+      this.setData({ isRecording: false })
+      this.data.recorderManager.stop()
+    }
+  },
+
+  // 开始录音计时器
+  startRecordTimer() {
+    this.data.recordTimer = setInterval(() => {
+      this.setData({
+        recordTime: this.data.recordTime + 1
+      })
+    }, 1000)
+  },
+
+  // 停止录音计时器
+  stopRecordTimer() {
+    if (this.data.recordTimer) {
+      clearInterval(this.data.recordTimer)
+      this.data.recordTimer = null
+    }
+  },
+
+  // 发送语音消息
+  async sendVoiceMessage(filePath, duration) {
+    try {
+      // 上传语音文件
+      const uploadRes = await wx.cloud.uploadFile({
+        cloudPath: `voice/${Date.now()}.mp3`,
+        filePath: filePath
+      })
+
+      // 保存语音消息
+      await this.saveMessage({
+        url: uploadRes.fileID,
+        duration: Math.round(duration / 1000)
+      }, 'voice')
+
+    } catch (error) {
+      console.error('发送语音消息失败:', error)
+      wx.showToast({
+        title: '发送失败',
+        icon: 'none'
+      })
+    }
+  },
+
+  // 显示表情
+  showEmoji() {
+    wx.showToast({
+      title: '表情功能开发中',
+      icon: 'none'
+    })
+  },
+
+  // 显示更多操作
+  showMoreActions() {
+    wx.showActionSheet({
+      itemList: ['拍照', '从相册选择', '取消'],
+      success: (res) => {
+        switch (res.tapIndex) {
+          case 0:
+            this.takePhoto()
+            break
+          case 1:
+            this.chooseImage()
+            break
+        }
+      }
+    })
+  },
+
+  // 拍照
+  async takePhoto() {
+    try {
+      const res = await wx.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+        sourceType: ['camera']
+      })
+      
+      if (res.tempFilePaths.length > 0) {
+        await this.uploadAndSendImage(res.tempFilePaths[0])
+      }
+    } catch (error) {
+      console.error('拍照失败:', error)
+    }
+  },
+
   onUnload() {
     // 页面卸载时停止消息监听
     if (this.messageWatcher) {
       this.messageWatcher.close()
+    }
+    
+    // 清理录音相关
+    if (this.data.recordTimer) {
+      clearInterval(this.data.recordTimer)
+    }
+    if (this.data.recorderManager) {
+      this.data.recorderManager.stop()
     }
   }
 })

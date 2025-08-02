@@ -1,0 +1,125 @@
+/* components/voice-message/voice-message.wxss */
+.voice-message {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  min-width: 200rpx;
+  max-width: 300rpx;
+}
+
+.voice-message.self {
+  flex-direction: row-reverse;
+}
+
+.voice-icon {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.voice-message.self .voice-icon {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.voice-message.other .voice-icon {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  font-size: 24rpx;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.voice-message.other .icon {
+  color: #333;
+}
+
+.icon.playing {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.wave-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wave {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  height: 40rpx;
+}
+
+.wave-bar {
+  width: 4rpx;
+  height: 20rpx;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 2rpx;
+  transition: all 0.3s ease;
+}
+
+.voice-message.other .wave-bar {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.wave.animate .wave-bar:nth-child(1) {
+  animation: wave1 1s infinite;
+}
+
+.wave.animate .wave-bar:nth-child(2) {
+  animation: wave2 1s infinite;
+}
+
+.wave.animate .wave-bar:nth-child(3) {
+  animation: wave3 1s infinite;
+}
+
+.wave.animate .wave-bar:nth-child(4) {
+  animation: wave2 1s infinite;
+}
+
+.wave.animate .wave-bar:nth-child(5) {
+  animation: wave1 1s infinite;
+}
+
+@keyframes wave1 {
+  0%, 100% { height: 20rpx; }
+  50% { height: 40rpx; }
+}
+
+@keyframes wave2 {
+  0%, 100% { height: 30rpx; }
+  50% { height: 50rpx; }
+}
+
+@keyframes wave3 {
+  0%, 100% { height: 40rpx; }
+  50% { height: 60rpx; }
+}
+
+.duration {
+  min-width: 60rpx;
+  text-align: center;
+}
+
+.time-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.voice-message.other .time-text {
+  color: rgba(0, 0, 0, 0.6);
+}
