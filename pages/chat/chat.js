@@ -84,6 +84,9 @@ Page({
       userInfo: userInfo
     })
     
+    // 保存聊天历史
+    this.saveChatHistory(chatUser)
+    
     // 设置导航标题
     wx.setNavigationBarTitle({
       title: chatUser.nickName
@@ -91,6 +94,36 @@ Page({
     
     // 加载历史消息
     this.loadHistoryMessages()
+  },
+
+  // 保存聊天历史
+  saveChatHistory: function(chatUser) {
+    const chatHistories = wx.getStorageSync('chatHistories') || []
+    
+    // 检查是否已存在
+    const existingIndex = chatHistories.findIndex(item => item.userId === chatUser.id)
+    
+    if (existingIndex >= 0) {
+      // 更新时间
+      chatHistories[existingIndex].timestamp = Date.now()
+    } else {
+      // 添加新记录
+      chatHistories.unshift({
+        userId: chatUser.id,
+        nickName: chatUser.nickName,
+        avatarUrl: chatUser.avatarUrl,
+        lastMessage: '开始聊天',
+        timestamp: Date.now()
+      })
+    }
+    
+    // 只保留最近50个聊天记录
+    if (chatHistories.length > 50) {
+      chatHistories.splice(50)
+    }
+    
+    wx.setStorageSync('chatHistories', chatHistories)
+    console.log('保存聊天历史：', chatHistories)
   },
 
   // 连接WebSocket
@@ -174,6 +207,9 @@ Page({
     const message = this.createMessage('text', content, true)
     this.addMessage(message)
     
+    // 更新聊天历史的最后消息
+    this.updateChatHistoryLastMessage(content)
+    
     this.setData({
       inputText: ''
     })
@@ -183,6 +219,21 @@ Page({
     
     // 停止正在输入状态
     this.sendTypingStatus(false)
+  },
+
+  // 更新聊天历史的最后消息
+  updateChatHistoryLastMessage: function(lastMessage) {
+    const chatHistories = wx.getStorageSync('chatHistories') || []
+    const chatUser = this.data.chatUser
+    
+    if (chatUser) {
+      const existingIndex = chatHistories.findIndex(item => item.userId === chatUser.id)
+      if (existingIndex >= 0) {
+        chatHistories[existingIndex].lastMessage = lastMessage
+        chatHistories[existingIndex].timestamp = Date.now()
+        wx.setStorageSync('chatHistories', chatHistories)
+      }
+    }
   },
 
   // 创建消息对象

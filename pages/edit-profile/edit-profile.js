@@ -329,48 +329,39 @@ Page({
   saveToServer: function(userInfo) {
     const that = this
     
-    wx.request({
-      url: app.globalData.apiUrl + '/user/update',
-      method: 'POST',
-      header: {
-        'Authorization': wx.getStorageSync('token')
-      },
-      data: {
-        userInfo: userInfo,
-        privacySettings: this.data.privacySettings
-      },
-      success: function(res) {
-        that.setData({ isSaving: false })
+    // 直接保存到本地，因为没有真实的后端服务器
+    console.log('保存用户信息：', userInfo)
+    
+    // 模拟网络请求延迟
+    setTimeout(() => {
+      that.setData({ isSaving: false })
+      
+      try {
+        // 更新全局用户信息
+        app.globalData.userInfo = { ...userInfo }
+        wx.setStorageSync('userInfo', userInfo)
+        wx.setStorageSync('privacySettings', that.data.privacySettings)
         
-        if (res.data && res.data.success) {
-          // 更新全局用户信息
-          app.globalData.userInfo = userInfo
-          wx.setStorageSync('userInfo', userInfo)
-          wx.setStorageSync('privacySettings', that.data.privacySettings)
-          
-          wx.showToast({
-            title: '保存成功',
-            icon: 'success'
-          })
-          
-          setTimeout(() => {
-            wx.navigateBack()
-          }, 1500)
-          
-        } else {
-          wx.showToast({
-            title: res.data.message || '保存失败',
-            icon: 'none'
-          })
-        }
-      },
-      fail: function() {
-        that.setData({ isSaving: false })
+        // 触发个人中心页面数据更新
+        wx.setStorageSync('profileUpdated', Date.now())
         
-        // 网络失败，保存到本地
-        that.saveToLocal(userInfo)
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success'
+        })
+        
+        setTimeout(() => {
+          wx.navigateBack()
+        }, 1500)
+        
+      } catch (error) {
+        console.error('保存用户信息失败：', error)
+        wx.showToast({
+          title: '保存失败',
+          icon: 'none'
+        })
       }
-    })
+    }, 1000)
   },
 
   // 保存到本地

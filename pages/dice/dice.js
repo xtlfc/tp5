@@ -290,6 +290,9 @@ Page({
       // 找到距离最近的异性用户
       const matchUser = mockUsers[0]
       
+      // 保存匹配记录
+      this.saveMatchRecord(matchUser)
+      
       this.setData({
         isMatching: false,
         matchUser: matchUser
@@ -309,6 +312,28 @@ Page({
         icon: 'none'
       })
     }
+  },
+
+  // 保存匹配记录
+  saveMatchRecord: function(matchUser) {
+    const matchRecords = wx.getStorageSync('matchRecords') || []
+    const newRecord = {
+      id: Date.now(),
+      matchUser: matchUser,
+      diceResult: this.data.result,
+      timestamp: Date.now(),
+      time: this.formatTime(new Date())
+    }
+    
+    matchRecords.unshift(newRecord)
+    
+    // 只保留最近20条记录
+    if (matchRecords.length > 20) {
+      matchRecords.splice(20)
+    }
+    
+    wx.setStorageSync('matchRecords', matchRecords)
+    console.log('保存匹配记录：', newRecord)
   },
 
   // 生成模拟匹配用户
