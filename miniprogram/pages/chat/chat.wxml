@@ -63,7 +63,7 @@
         <!-- 消息内容 -->
         <view class="message-content {{item.isSelf ? 'self' : 'other'}}">
           <!-- 自己发送的消息：头像在右侧 -->
-          <block wx:if="{{item.isSelf}}">
+          <view wx:if="{{item.isSelf}}" class="self-message">
             <!-- 消息气泡 -->
             <view class="message-bubble self-bubble">
               <!-- 文本消息 -->
@@ -80,12 +80,10 @@
               ></image>
 
               <!-- 语音消息 -->
-              <voice-message 
-                wx:if="{{item.type === 'voice'}}" 
-                url="{{item.content.url}}" 
-                duration="{{item.content.duration}}"
-                isSelf="{{item.isSelf}}"
-              ></voice-message>
+              <view wx:if="{{item.type === 'voice'}}" class="voice-placeholder">
+                <text class="voice-text">🎤 语音消息</text>
+                <text class="voice-duration">{{item.content.duration}}s</text>
+              </view>
 
               <!-- 消息状态 -->
               <view class="message-status">
@@ -104,10 +102,10 @@
               mode="aspectFill"
               bindtap="showUserProfile"
             ></image>
-          </block>
+          </view>
 
           <!-- 对方发送的消息：头像在左侧 -->
-          <block wx:else>
+          <view wx:else class="other-message">
             <!-- 头像 -->
             <image 
               class="message-avatar other-avatar" 
@@ -132,14 +130,12 @@
               ></image>
 
               <!-- 语音消息 -->
-              <voice-message 
-                wx:if="{{item.type === 'voice'}}" 
-                url="{{item.content.url}}" 
-                duration="{{item.content.duration}}"
-                isSelf="{{item.isSelf}}"
-              ></voice-message>
+              <view wx:if="{{item.type === 'voice'}}" class="voice-placeholder">
+                <text class="voice-text">🎤 语音消息</text>
+                <text class="voice-duration">{{item.content.duration}}s</text>
+              </view>
             </view>
-          </block>
+          </view>
         </view>
       </view>
     </view>

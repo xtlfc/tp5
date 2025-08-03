@@ -171,6 +171,22 @@
   justify-content: flex-start;
 }
 
+.self-message {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: 16rpx;
+  max-width: 100%;
+}
+
+.other-message {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16rpx;
+  max-width: 100%;
+}
+
 .message-avatar {
   width: 80rpx;
   height: 80rpx;
@@ -452,4 +468,25 @@
 .tip-text {
   font-size: 24rpx;
   color: #856404;
+}
+
+/* 语音消息占位符 */
+.voice-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16rpx;
+  min-width: 200rpx;
+}
+
+.voice-text {
+  font-size: 28rpx;
+  color: inherit;
+}
+
+.voice-duration {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
 }

@@ -39,12 +39,6 @@
         "selectedIconPath": "images/match-active.png"
       },
       {
-        "pagePath": "pages/chat/chat",
-        "text": "聊天",
-        "iconPath": "images/chat.png",
-        "selectedIconPath": "images/chat-active.png"
-      },
-      {
         "pagePath": "pages/profile/profile",
         "text": "我的",
         "iconPath": "images/profile.png",

@@ -1,0 +1,50 @@
+<!--pages/chat/chat-simple.wxml-->
+<view class="chat-container">
+  <!-- 聊天头部 -->
+  <view class="chat-header">
+    <view class="header-left">
+      <button class="back-btn" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </button>
+    </view>
+    
+    <view class="header-center">
+      <image class="user-avatar" src="{{matchedUser.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="user-name">{{matchedUser.nickName}}</text>
+        <text class="user-status">{{userStatus}}</text>
+      </view>
+    </view>
+    
+    <view class="header-right">
+      <button class="header-btn" bindtap="startVideoCall">
+        <text class="header-icon">📹</text>
+      </button>
+      <button class="header-btn" bindtap="startVoiceCall">
+        <text class="header-icon">📞</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 聊天消息列表 -->
+  <scroll-view class="chat-messages" scroll-y="true">
+    <view class="message-list">
+      <view class="message-item" wx:for="{{messages}}" wx:key="id">
+        <view class="message-content {{item.isSelf ? 'self' : 'other'}}">
+          <image class="message-avatar" src="{{item.isSelf ? userInfo.avatarUrl : matchedUser.avatarUrl}}" mode="aspectFill"></image>
+          <view class="message-bubble">
+            <text class="message-text">{{item.content}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="chat-input">
+    <view class="input-container">
+      <input class="message-input" placeholder="输入消息..." value="{{inputMessage}}" bindinput="onInputChange" />
+      <button class="send-btn" bindtap="sendMessage">发送</button>
+    </view>
+  </view>
+</view>
