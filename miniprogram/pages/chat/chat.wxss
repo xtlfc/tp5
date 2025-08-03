@@ -320,8 +320,10 @@
   border-radius: 32rpx;
   padding: 0 24rpx;
   min-height: 60rpx;
+  max-height: 120rpx;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 
 .message-input {
@@ -331,6 +333,8 @@
   padding: 16rpx 0;
   font-size: 28rpx;
   color: #333;
+  min-height: 28rpx;
+  line-height: 28rpx;
 }
 
 .message-input::placeholder {
@@ -396,7 +400,8 @@
 .function-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 32rpx;
+  gap: 24rpx;
+  padding: 16rpx 0;
 }
 
 .function-item {

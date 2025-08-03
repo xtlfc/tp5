@@ -1,0 +1,57 @@
+<!--pages/roll-history/roll-history.wxml-->
+<view class="roll-history-container">
+  <!-- 统计头部 -->
+  <view class="stats-header">
+    <view class="stats-card">
+      <view class="stat-item">
+        <text class="stat-number">{{totalRolls}}</text>
+        <text class="stat-label">总摇骰子</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{todayRolls}}</text>
+        <text class="stat-label">今日摇骰子</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{successRate}}%</text>
+        <text class="stat-label">匹配成功率</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史列表 -->
+  <view class="history-section">
+    <view class="section-header">
+      <text class="section-title">摇骰子历史</text>
+      <text class="section-count">共{{rollHistory.length}}次</text>
+    </view>
+
+    <view class="history-list" wx:if="{{rollHistory.length > 0}}">
+      <view class="history-item" wx:for="{{rollHistory}}" wx:key="id">
+        <view class="history-content">
+          <view class="dice-info">
+            <text class="dice-number">🎲 {{item.diceNumber}}</text>
+            <text class="dice-time">{{item.timeText}}</text>
+          </view>
+          <view class="match-result">
+            <text class="result-text {{item.matched ? 'success' : 'failed'}}">
+              {{item.matched ? '匹配成功' : '未匹配'}}
+            </text>
+            <text class="distance-text" wx:if="{{item.matched}}">
+              距离: {{item.distance}}km
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <image class="empty-icon" src="/images/empty-roll.png" mode="aspectFit"></image>
+      <text class="empty-text">还没有摇骰子记录哦～</text>
+      <text class="empty-subtext">快去摇骰子寻找缘分吧！</text>
+      <button class="go-roll-btn btn-primary" bindtap="goToRoll">
+        去摇骰子
+      </button>
+    </view>
+  </view>
+</view>

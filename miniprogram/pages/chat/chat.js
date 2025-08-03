@@ -470,6 +470,11 @@ Page({
           }
         }
       })
+    } else if (message.isSelf) {
+      wx.showToast({
+        title: '消息已被对方查看，无法删除',
+        icon: 'none'
+      })
     }
   },
 

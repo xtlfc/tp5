@@ -1,0 +1,64 @@
+<!--pages/match-history/match-history.wxml-->
+<view class="match-history-container">
+  <!-- 统计头部 -->
+  <view class="stats-header">
+    <view class="stats-card">
+      <view class="stat-item">
+        <text class="stat-number">{{totalMatches}}</text>
+        <text class="stat-label">总匹配</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{todayMatches}}</text>
+        <text class="stat-label">今日匹配</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{avgDistance}}km</text>
+        <text class="stat-label">平均距离</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史列表 -->
+  <view class="history-section">
+    <view class="section-header">
+      <text class="section-title">匹配历史</text>
+      <text class="section-count">共{{matchHistory.length}}次</text>
+    </view>
+
+    <view class="history-list" wx:if="{{matchHistory.length > 0}}">
+      <view class="history-item" wx:for="{{matchHistory}}" wx:key="id" bindtap="viewMatchDetail" data-match="{{item}}">
+        <view class="match-avatar">
+          <image class="avatar" src="{{item.matchedUser.avatarUrl}}" mode="aspectFill"></image>
+        </view>
+        <view class="match-info">
+          <view class="match-header">
+            <text class="match-name">{{item.matchedUser.nickName}}</text>
+            <text class="match-time">{{item.timeText}}</text>
+          </view>
+          <view class="match-details">
+            <text class="match-dice">🎲 {{item.diceNumber}}</text>
+            <text class="match-distance">距离: {{item.distance}}km</text>
+          </view>
+          <view class="match-status">
+            <text class="status-text {{item.isActive ? 'active' : 'inactive'}}">
+              {{item.isActive ? '聊天中' : '已结束'}}
+            </text>
+          </view>
+        </view>
+        <view class="match-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <image class="empty-icon" src="/images/empty-match.png" mode="aspectFit"></image>
+      <text class="empty-text">还没有匹配记录哦～</text>
+      <text class="empty-subtext">快去摇骰子寻找缘分吧！</text>
+      <button class="go-roll-btn btn-primary" bindtap="goToRoll">
+        去摇骰子
+      </button>
+    </view>
+  </view>
+</view>

@@ -240,17 +240,31 @@ Page({
 
       // 更新数据库
       const db = wx.cloud.database()
-      await db.collection('users').where({
+      const result = await db.collection('users').where({
         openid: app.globalData.openid
       }).update({
         data: updateData
       })
+
+      if (result.stats.updated === 0) {
+        // 如果没有更新任何记录，尝试添加新记录
+        await db.collection('users').add({
+          data: {
+            openid: app.globalData.openid,
+            ...updateData,
+            createTime: new Date()
+          }
+        })
+      }
 
       // 更新全局数据
       app.globalData.userInfo = {
         ...app.globalData.userInfo,
         ...updateData
       }
+
+      // 保存到本地存储
+      wx.setStorageSync('userInfo', app.globalData.userInfo)
 
       // 记录分析事件
       analyticsManager.trackProfileUpdate(updateData)

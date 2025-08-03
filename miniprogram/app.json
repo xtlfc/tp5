@@ -11,7 +11,9 @@
     "pages/blacklist/blacklist",
     "pages/report/report",
     "pages/analytics/analytics",
-    "pages/settings/settings"
+    "pages/settings/settings",
+    "pages/roll-history/roll-history",
+    "pages/match-history/match-history"
   ],
   "window": {
     "backgroundTextStyle": "light",

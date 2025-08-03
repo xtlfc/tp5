@@ -41,19 +41,73 @@ Page({
   async loadUserData() {
     try {
       const db = wx.cloud.database()
+      
+      // 获取用户基本信息
       const userRes = await db.collection('users').where({
         openid: app.globalData.openid
       }).get()
 
+      let totalRolls = 0
+      let totalMatches = 0
+      let todayRolls = 0
+      let todayMatches = 0
+
       if (userRes.data.length > 0) {
         const user = userRes.data[0]
-        this.setData({
-          totalRolls: user.totalRolls || 0,
-          totalMatches: user.matchCount || 0,
-          todayRolls: user.todayRolls || 0,
-          todayMatches: user.todayMatches || 0
-        })
+        totalRolls = user.totalRolls || 0
+        totalMatches = user.matchCount || 0
+        todayRolls = user.todayRolls || 0
+        todayMatches = user.todayMatches || 0
       }
+
+      // 获取摇骰子历史统计
+      const rollsRes = await db.collection('rollHistory').where({
+        userId: app.globalData.openid
+      }).count()
+
+      totalRolls = rollsRes.total
+
+      // 获取今日摇骰子次数
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const todayRollsRes = await db.collection('rollHistory').where({
+        userId: app.globalData.openid,
+        createTime: db.command.gte(today)
+      }).count()
+
+      todayRolls = todayRollsRes.total
+
+      // 获取匹配历史统计
+      const matchesRes = await db.collection('matches').where({
+        user1Id: app.globalData.openid
+      }).count()
+
+      totalMatches = matchesRes.total
+
+      // 获取今日匹配次数
+      const todayMatchesRes = await db.collection('matches').where({
+        user1Id: app.globalData.openid,
+        matchTime: db.command.gte(today)
+      }).count()
+
+      todayMatches = todayMatchesRes.total
+
+      // 如果数据库中没有数据，尝试从用户表获取
+      if (totalRolls === 0 && userRes.data.length > 0) {
+        const user = userRes.data[0]
+        totalRolls = user.totalRolls || 0
+        totalMatches = user.matchCount || 0
+        todayRolls = user.todayRolls || 0
+        todayMatches = user.todayMatches || 0
+      }
+
+      this.setData({
+        totalRolls,
+        totalMatches,
+        todayRolls,
+        todayMatches
+      })
+
     } catch (error) {
       console.error('加载用户数据失败:', error)
     }
@@ -143,19 +197,15 @@ Page({
 
   // 显示摇骰子历史
   showRollHistory() {
-    wx.showModal({
-      title: '摇骰子历史',
-      content: `总摇骰子: ${this.data.totalRolls}次\n今日摇骰子: ${this.data.todayRolls}次`,
-      showCancel: false
+    wx.navigateTo({
+      url: '/pages/roll-history/roll-history'
     })
   },
 
   // 显示匹配历史
   showMatchHistory() {
-    wx.showModal({
-      title: '匹配历史',
-      content: `总匹配: ${this.data.totalMatches}次\n今日匹配: ${this.data.todayMatches}次`,
-      showCancel: false
+    wx.navigateTo({
+      url: '/pages/match-history/match-history'
     })
   },
 

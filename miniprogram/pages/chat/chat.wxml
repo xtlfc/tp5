@@ -165,14 +165,12 @@
           bindconfirm="sendMessage"
           confirm-type="send"
           disabled="{{isSending}}"
-          adjust-position="false"
+          adjust-position="true"
+          cursor-spacing="20"
+          maxlength="500"
+          auto-height="true"
         />
       </view>
-      
-      <!-- 功能按钮 -->
-      <button class="function-btn" bindtap="showFunctionPanel">
-        <text class="function-icon">+</text>
-      </button>
       
       <!-- 发送按钮 -->
       <button 
@@ -181,6 +179,11 @@
         disabled="{{!inputMessage.trim() || isSending}}"
       >
         {{isSending ? '发送中...' : '发送'}}
+      </button>
+      
+      <!-- 功能按钮 -->
+      <button class="function-btn" bindtap="showFunctionPanel">
+        <text class="function-icon">+</text>
       </button>
     </view>
   </view>
@@ -196,13 +199,13 @@
         <text class="function-item-icon">🖼️</text>
         <text class="function-item-text">相册</text>
       </view>
-      <view class="function-item" bindtap="startVideoCall">
-        <text class="function-item-icon">📹</text>
-        <text class="function-item-text">视频</text>
-      </view>
       <view class="function-item" bindtap="showEmoji">
         <text class="function-item-icon">😊</text>
         <text class="function-item-text">表情</text>
+      </view>
+      <view class="function-item" bindtap="startVideoCall">
+        <text class="function-item-icon">📹</text>
+        <text class="function-item-text">视频</text>
       </view>
     </view>
   </view>

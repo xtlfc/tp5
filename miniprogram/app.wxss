@@ -87,6 +87,23 @@ page {
 .message-avatar,
 .session-avatar,
 .header-avatar,
+.profile-avatar,
+image[class*="avatar"] {
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
+/* 强制所有头像为圆形 */
+image {
+  border-radius: 0;
+}
+
+image[class*="avatar"],
+.avatar,
+.user-avatar,
+.message-avatar,
+.session-avatar,
+.header-avatar,
 .profile-avatar {
   border-radius: 50% !important;
   overflow: hidden;
