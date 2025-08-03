@@ -19,7 +19,8 @@ Page({
     recordTime: 0,
     recordTipText: '手指上滑，取消发送',
     recordTimer: null,
-    recorderManager: null
+    recorderManager: null,
+    showFunctionPanel: false
   },
 
   onLoad(options) {
@@ -182,11 +183,12 @@ Page({
 
   // 选择图片
   async chooseImage() {
+    this.setData({ showFunctionPanel: false })
     try {
       const res = await wx.chooseImage({
         count: 1,
         sizeType: ['compressed'],
-        sourceType: ['album', 'camera']
+        sourceType: ['album']
       })
 
       const tempFilePath = res.tempFilePaths[0]
@@ -604,33 +606,25 @@ Page({
     }
   },
 
+  // 显示功能面板
+  showFunctionPanel() {
+    this.setData({
+      showFunctionPanel: !this.data.showFunctionPanel
+    })
+  },
+
   // 显示表情
   showEmoji() {
+    this.setData({ showFunctionPanel: false })
     wx.showToast({
       title: '表情功能开发中',
       icon: 'none'
     })
   },
 
-  // 显示更多操作
-  showMoreActions() {
-    wx.showActionSheet({
-      itemList: ['拍照', '从相册选择', '取消'],
-      success: (res) => {
-        switch (res.tapIndex) {
-          case 0:
-            this.takePhoto()
-            break
-          case 1:
-            this.chooseImage()
-            break
-        }
-      }
-    })
-  },
-
   // 拍照
   async takePhoto() {
+    this.setData({ showFunctionPanel: false })
     try {
       const res = await wx.chooseImage({
         count: 1,

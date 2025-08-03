@@ -67,6 +67,11 @@
         <text class="menu-text">摇骰子历史</text>
         <text class="menu-arrow">></text>
       </view>
+      <view class="menu-item" bindtap="showSettings">
+        <view class="menu-icon">⚙️</view>
+        <text class="menu-text">设置</text>
+        <text class="menu-arrow">></text>
+      </view>
       <view class="menu-item" bindtap="showMatchHistory">
         <view class="menu-icon">👥</view>
         <text class="menu-text">匹配历史</text>

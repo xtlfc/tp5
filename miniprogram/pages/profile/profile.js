@@ -134,6 +134,13 @@ Page({
     })
   },
 
+  // 显示设置
+  showSettings() {
+    wx.navigateTo({
+      url: '/pages/settings/settings'
+    })
+  },
+
   // 显示摇骰子历史
   showRollHistory() {
     wx.showModal({

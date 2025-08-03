@@ -61,47 +61,85 @@
         </view>
 
         <!-- 消息内容 -->
-        <view class="message-content">
-          <!-- 头像 -->
-          <image 
-            class="message-avatar {{item.isSelf ? 'self-avatar' : 'other-avatar'}}" 
-            src="{{item.isSelf ? userInfo.avatarUrl : matchedUser.avatarUrl}}" 
-            mode="aspectFill"
-            bindtap="showUserProfile"
-          ></image>
+        <view class="message-content {{item.isSelf ? 'self' : 'other'}}">
+          <!-- 自己发送的消息：头像在右侧 -->
+          <block wx:if="{{item.isSelf}}">
+            <!-- 消息气泡 -->
+            <view class="message-bubble self-bubble">
+              <!-- 文本消息 -->
+              <text class="message-text" wx:if="{{item.type === 'text'}}">{{item.content}}</text>
+              
+              <!-- 图片消息 -->
+              <image 
+                class="message-image" 
+                wx:if="{{item.type === 'image'}}" 
+                src="{{item.content}}" 
+                mode="widthFix"
+                bindtap="previewImage"
+                data-url="{{item.content}}"
+              ></image>
 
-          <!-- 消息气泡 -->
-          <view class="message-bubble {{item.isSelf ? 'self-bubble' : 'other-bubble'}}">
-            <!-- 文本消息 -->
-            <text class="message-text" wx:if="{{item.type === 'text'}}">{{item.content}}</text>
+              <!-- 语音消息 -->
+              <voice-message 
+                wx:if="{{item.type === 'voice'}}" 
+                url="{{item.content.url}}" 
+                duration="{{item.content.duration}}"
+                isSelf="{{item.isSelf}}"
+              ></voice-message>
+
+              <!-- 消息状态 -->
+              <view class="message-status">
+                <text class="status-text {{item.status}}">
+                  {{item.status === 'sending' ? '发送中' : 
+                    item.status === 'sent' ? '已发送' : 
+                    item.status === 'read' ? '已读' : '发送失败'}}
+                </text>
+              </view>
+            </view>
             
-            <!-- 图片消息 -->
+            <!-- 头像 -->
             <image 
-              class="message-image" 
-              wx:if="{{item.type === 'image'}}" 
-              src="{{item.content}}" 
-              mode="widthFix"
-              bindtap="previewImage"
-              data-url="{{item.content}}"
+              class="message-avatar self-avatar" 
+              src="{{userInfo.avatarUrl}}" 
+              mode="aspectFill"
+              bindtap="showUserProfile"
+            ></image>
+          </block>
+
+          <!-- 对方发送的消息：头像在左侧 -->
+          <block wx:else>
+            <!-- 头像 -->
+            <image 
+              class="message-avatar other-avatar" 
+              src="{{matchedUser.avatarUrl}}" 
+              mode="aspectFill"
+              bindtap="showUserProfile"
             ></image>
 
-            <!-- 语音消息 -->
-            <voice-message 
-              wx:if="{{item.type === 'voice'}}" 
-              url="{{item.content.url}}" 
-              duration="{{item.content.duration}}"
-              isSelf="{{item.isSelf}}"
-            ></voice-message>
+            <!-- 消息气泡 -->
+            <view class="message-bubble other-bubble">
+              <!-- 文本消息 -->
+              <text class="message-text" wx:if="{{item.type === 'text'}}">{{item.content}}</text>
+              
+              <!-- 图片消息 -->
+              <image 
+                class="message-image" 
+                wx:if="{{item.type === 'image'}}" 
+                src="{{item.content}}" 
+                mode="widthFix"
+                bindtap="previewImage"
+                data-url="{{item.content}}"
+              ></image>
 
-            <!-- 消息状态 -->
-            <view class="message-status" wx:if="{{item.isSelf}}">
-              <text class="status-text {{item.status}}">
-                {{item.status === 'sending' ? '发送中' : 
-                  item.status === 'sent' ? '已发送' : 
-                  item.status === 'read' ? '已读' : '发送失败'}}
-              </text>
+              <!-- 语音消息 -->
+              <voice-message 
+                wx:if="{{item.type === 'voice'}}" 
+                url="{{item.content.url}}" 
+                duration="{{item.content.duration}}"
+                isSelf="{{item.isSelf}}"
+              ></voice-message>
             </view>
-          </view>
+          </block>
         </view>
       </view>
     </view>
@@ -135,14 +173,9 @@
         />
       </view>
       
-      <!-- 表情按钮 -->
-      <button class="emoji-btn" bindtap="showEmoji">
-        <text class="emoji-icon">😊</text>
-      </button>
-      
-      <!-- 更多功能按钮 -->
-      <button class="more-btn" bindtap="showMoreActions">
-        <text class="more-icon">+</text>
+      <!-- 功能按钮 -->
+      <button class="function-btn" bindtap="showFunctionPanel">
+        <text class="function-icon">+</text>
       </button>
       
       <!-- 发送按钮 -->
@@ -153,6 +186,28 @@
       >
         {{isSending ? '发送中...' : '发送'}}
       </button>
+    </view>
+  </view>
+
+  <!-- 功能面板 -->
+  <view class="function-panel" wx:if="{{showFunctionPanel}}">
+    <view class="function-grid">
+      <view class="function-item" bindtap="takePhoto">
+        <text class="function-item-icon">📷</text>
+        <text class="function-item-text">拍照</text>
+      </view>
+      <view class="function-item" bindtap="chooseImage">
+        <text class="function-item-icon">🖼️</text>
+        <text class="function-item-text">相册</text>
+      </view>
+      <view class="function-item" bindtap="startVideoCall">
+        <text class="function-item-icon">📹</text>
+        <text class="function-item-text">视频</text>
+      </view>
+      <view class="function-item" bindtap="showEmoji">
+        <text class="function-item-icon">😊</text>
+        <text class="function-item-text">表情</text>
+      </view>
     </view>
   </view>
 

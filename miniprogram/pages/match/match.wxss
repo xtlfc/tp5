@@ -4,6 +4,151 @@
   min-height: 100vh;
 }
 
+/* 匹配中状态 */
+.matching-status {
+  padding: 40rpx 0;
+}
+
+.matching-card {
+  text-align: center;
+  padding: 60rpx 40rpx;
+}
+
+.matching-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32rpx;
+}
+
+.matching-icon {
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, #FF6B9D 0%, #FF8E53 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.matching-icon .icon {
+  font-size: 60rpx;
+  color: white;
+}
+
+.matching-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.matching-subtitle {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.countdown-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.countdown-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.countdown-time {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FF6B9D;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8rpx;
+  background-color: #e5e5e5;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #FF6B9D 0%, #FF8E53 100%);
+  transition: width 1s linear;
+}
+
+.cancel-btn {
+  margin-top: 32rpx;
+  width: 200rpx;
+}
+
+/* 匹配失败状态 */
+.match-failed {
+  padding: 40rpx 0;
+}
+
+.failed-card {
+  text-align: center;
+  padding: 60rpx 40rpx;
+}
+
+.failed-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32rpx;
+}
+
+.failed-icon {
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #f8f9fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.failed-icon .icon {
+  font-size: 60rpx;
+  color: #999;
+}
+
+.failed-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.failed-subtitle {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.failed-tip {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.failed-actions {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 32rpx;
+}
+
+.retry-btn, .back-btn {
+  width: 160rpx;
+}
+
 /* 统计区域 */
 .stats-section {
   margin-bottom: 30rpx;

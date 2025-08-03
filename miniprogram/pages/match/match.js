@@ -7,7 +7,13 @@ Page({
     todayMatches: 0,
     activeChats: 0,
     chatSessions: [],
-    matchHistory: []
+    matchHistory: [],
+    isMatching: false,
+    matchFailed: false,
+    countdownTime: 30,
+    progressPercent: 100,
+    countdownTimer: null,
+    matchTimer: null
   },
 
   onLoad() {
@@ -25,6 +31,23 @@ Page({
   onShow() {
     // 每次显示页面时刷新数据
     this.loadData()
+  },
+
+  onLoad(options) {
+    // 检查登录状态
+    if (!app.globalData.isLoggedIn) {
+      wx.redirectTo({
+        url: '/pages/login/login'
+      })
+      return
+    }
+
+    // 如果是从摇骰子页面跳转过来的，开始匹配
+    if (options.fromRoll === 'true') {
+      this.startMatching()
+    } else {
+      this.loadData()
+    }
   },
 
   // 加载数据
@@ -163,5 +186,119 @@ Page({
     } else {
       return messageTime.toLocaleDateString()
     }
+  },
+
+  // 开始匹配
+  startMatching() {
+    this.setData({
+      isMatching: true,
+      matchFailed: false,
+      countdownTime: 30,
+      progressPercent: 100
+    })
+
+    // 开始倒计时
+    this.startCountdown()
+
+    // 开始匹配逻辑
+    this.startMatchLogic()
+  },
+
+  // 开始倒计时
+  startCountdown() {
+    this.data.countdownTimer = setInterval(() => {
+      const newTime = this.data.countdownTime - 1
+      const newProgress = (newTime / 30) * 100
+
+      this.setData({
+        countdownTime: newTime,
+        progressPercent: newProgress
+      })
+
+      if (newTime <= 0) {
+        this.stopCountdown()
+        this.handleMatchTimeout()
+      }
+    }, 1000)
+  },
+
+  // 停止倒计时
+  stopCountdown() {
+    if (this.data.countdownTimer) {
+      clearInterval(this.data.countdownTimer)
+      this.data.countdownTimer = null
+    }
+  },
+
+  // 开始匹配逻辑
+  async startMatchLogic() {
+    try {
+      // 调用匹配云函数
+      const result = await wx.cloud.callFunction({
+        name: 'match',
+        data: {
+          action: 'findMatch',
+          userId: app.globalData.openid,
+          diceNumber: app.globalData.lastDiceNumber || 1
+        }
+      })
+
+      if (result.result.success && result.result.matchedUser) {
+        // 匹配成功
+        this.handleMatchSuccess(result.result.matchedUser)
+      }
+    } catch (error) {
+      console.error('匹配失败:', error)
+    }
+  },
+
+  // 处理匹配成功
+  handleMatchSuccess(matchedUser) {
+    this.stopCountdown()
+    
+    this.setData({
+      isMatching: false,
+      matchFailed: false
+    })
+
+    // 跳转到聊天页面
+    wx.navigateTo({
+      url: `/pages/chat/chat?userId=${matchedUser.openid}&userName=${matchedUser.nickName}`
+    })
+  },
+
+  // 处理匹配超时
+  handleMatchTimeout() {
+    this.setData({
+      isMatching: false,
+      matchFailed: true
+    })
+  },
+
+  // 取消匹配
+  cancelMatching() {
+    this.stopCountdown()
+    this.setData({
+      isMatching: false,
+      matchFailed: false
+    })
+    
+    // 返回首页
+    wx.navigateBack()
+  },
+
+  // 重新匹配
+  retryMatch() {
+    this.startMatching()
+  },
+
+  // 返回首页
+  goBack() {
+    wx.navigateBack()
+  },
+
+  onUnload() {
+    // 页面卸载时清理定时器
+    this.stopCountdown()
   }
 })

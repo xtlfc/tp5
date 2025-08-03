@@ -1,7 +1,59 @@
 <!--pages/match/match.wxml-->
 <view class="container">
+  <!-- 匹配中状态 -->
+  <view class="matching-status" wx:if="{{isMatching}}">
+    <view class="matching-card card">
+      <view class="matching-content">
+        <view class="matching-icon">
+          <text class="icon">🎲</text>
+        </view>
+        <text class="matching-title">正在匹配中...</text>
+        <text class="matching-subtitle">寻找相同点数的异性用户</text>
+        
+        <!-- 倒计时 -->
+        <view class="countdown-section">
+          <text class="countdown-text">剩余时间</text>
+          <text class="countdown-time">{{countdownTime}}s</text>
+        </view>
+        
+        <!-- 进度条 -->
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+        </view>
+        
+        <!-- 取消按钮 -->
+        <button class="cancel-btn btn-secondary" bindtap="cancelMatching">
+          取消匹配
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 匹配失败状态 -->
+  <view class="match-failed" wx:if="{{matchFailed}}">
+    <view class="failed-card card">
+      <view class="failed-content">
+        <view class="failed-icon">
+          <text class="icon">😔</text>
+        </view>
+        <text class="failed-title">匹配失败</text>
+        <text class="failed-subtitle">30秒内未找到合适的匹配对象</text>
+        <text class="failed-tip">建议稍后再试或调整匹配条件</text>
+        
+        <view class="failed-actions">
+          <button class="retry-btn btn-primary" bindtap="retryMatch">
+            重新匹配
+          </button>
+          <button class="back-btn btn-secondary" bindtap="goBack">
+            返回首页
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 匹配统计 -->
-  <view class="stats-section">
+  <view class="stats-section" wx:if="{{!isMatching && !matchFailed}}">
     <view class="stats-card card">
       <view class="stats-header">
         <text class="stats-title">匹配统计</text>

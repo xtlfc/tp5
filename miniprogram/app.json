@@ -10,7 +10,8 @@
     "pages/edit-profile/edit-profile",
     "pages/blacklist/blacklist",
     "pages/report/report",
-    "pages/analytics/analytics"
+    "pages/analytics/analytics",
+    "pages/settings/settings"
   ],
   "window": {
     "backgroundTextStyle": "light",
